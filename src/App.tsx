@@ -1,9 +1,11 @@
+// Edit this data to add portfolio pieces; each item is rendered by the reusable card below.
 const projects = [
   { title: 'Project One', status: 'In development', role: 'Gameplay Programmer', text: 'A brief description of the game, its hook, and the contribution you made.', tags: ['Unity', 'C#', 'Gameplay'] },
   { title: 'Project Two', status: 'Prototype', role: 'Solo Developer', text: 'Use this space to communicate the genre, core loop, and what you learned building it.', tags: ['Unreal', 'Blueprints', 'Systems'] },
   { title: 'Project Three', status: 'Released', role: 'Technical Designer', text: 'A concise overview that gives visitors a reason to explore the project further.', tags: ['Godot', 'GDScript', 'Tools'] },
 ]
 
+// Portfolio section order and the placeholder copy live here; replace them as your work evolves.
 export default function App() {
   return <main>
     <nav className="nav container"><a className="brand" href="#top">YOUR NAME<span>.</span></a><div><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div></nav>
