@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 // Edit this data to add portfolio pieces; each item is rendered by the reusable card below.
 const projects = [
   { title: 'Project One', status: 'In development', role: 'Gameplay Programmer', text: 'A brief description of the game, its hook, and the contribution you made.', tags: ['Unity', 'C#', 'Gameplay'] },
@@ -7,8 +9,11 @@ const projects = [
 
 // Portfolio section order and the placeholder copy live here; replace them as your work evolves.
 export default function App() {
-  return <main className="world">
-    <nav className="nav container"><a className="brand" href="#top">YOUR NAME<span>.</span></a><div><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div></nav>
+  // Add new options here and matching .theme-* variables in github-light.css.
+  const [theme, setTheme] = useState<'light' | 'dark' | 'midnight'>('light')
+
+  return <main className={`world theme-${theme}`}>
+    <nav className="nav container"><a className="brand" href="#top">YOUR NAME<span>.</span></a><div className="nav-tools"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><label className="theme-picker">Theme<select value={theme} onChange={event => setTheme(event.target.value as typeof theme)} aria-label="Select portfolio theme"><option value="light">GitHub Light</option><option value="dark">GitHub Dark</option><option value="midnight">Midnight</option></select></label></div></nav>
     {/* Edit these compact profile labels to match your role, focus, and availability. */}
     <div className="world-hud container"><span>PROFILE: YOUR NAME</span><span>FOCUS: GAME DEVELOPMENT</span><span>STATUS: OPEN TO WORK</span></div>
     <section className="hero container" id="top"><p className="eyebrow">Game developer / designer</p><h1>I build playable worlds and memorable systems.</h1><p className="lead">A flexible introduction to your specialty, experience, and the kind of games you want to make.</p><div className="actions"><a className="button" href="#work">View selected work</a><a href="#contact">Get in touch →</a></div><p className="meta">Based in [City] · Available for opportunities</p></section>
