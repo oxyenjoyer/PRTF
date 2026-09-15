@@ -2,7 +2,7 @@
 
 A responsive React, TypeScript, and Vite portfolio starter for a game developer.
 
-The current visual direction is an original voxel-survival game aesthetic: flat, block-built panels with crisp borders and text strokes, plus a light grass, soil, and sky palette. It uses a remotely loaded Pixelify Sans web font with local fallbacks, CSS-only cloud and ground texture layers, high-contrast UI controls, and an editable in-world status HUD.
+The current visual direction is a GitHub-light-inspired developer portfolio: flat neutral surfaces, dark ink, blue highlights, crisp borders, and selective text strokes. It uses a system font stack and CSS only; no external game assets or web fonts are required.
 
 ## Tech stack
 
@@ -13,6 +13,8 @@ The current visual direction is an original voxel-survival game aesthetic: flat,
 
 ## Project layout
 
+- `src/github-light.css` — active GitHub-light theme, palette, controls, and responsive overrides
+
 - `src/App.tsx` — page sections and portfolio content
 - `src/styles.css` — global styles and responsive layout
 - `src/main.tsx` — React entry point
@@ -21,12 +23,10 @@ The current visual direction is an original voxel-survival game aesthetic: flat,
 ## Theme architecture
 
 - `src/styles.css` holds the original base layout and shared responsive rules.
-- `src/world.css` loads after the base CSS and contains the clean voxel-world overrides: a line-free sky/ground background, readable type, the status HUD, button states, and content-zone layout.
+- `src/github-light.css` loads after the base CSS and contains the active GitHub-light presentation layer: colors, typography, controls, cards, and responsive rules.
 - `src/App.tsx` contains the HUD labels and portfolio content. Its nearby comments mark the intended editing locations.
 
-When changing the visual system, update `src/world.css` first and keep this README in sync.
-
-`src/readability.css` is the final contrast and spacing layer. It deepens the background, removes all box and text shadows, applies strokes selectively to headings and panel text while leaving navigation and intro copy clean, uses equal section and footer padding, and adds subtle dot-based panel texture.
+When changing the visual system, update `src/github-light.css` first and keep this README in sync.
 
 ## Run locally
 
@@ -50,4 +50,4 @@ npm.cmd run preview
 
 Update placeholder text, email, location, social links, and project entries in `src/App.tsx`. The comments in that file identify the project-data and page-copy edit points.
 
-The CSS custom properties at the beginning of `src/styles.css` control the voxel palette. The same file contains the CSS texture layers, readable font stack, responsive breakpoints, project-art placeholders, and pixel-style interaction effects. The HUD labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
+The CSS custom properties at the beginning of `src/github-light.css` control the active palette. The same file contains typography, responsive breakpoints, project-art placeholders, flat controls, and border treatments. The profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
