@@ -23,7 +23,7 @@ The current visual direction is a high-contrast developer portfolio with three s
 ## Theme architecture
 
 - `src/styles.css` holds the original base layout and shared responsive rules.
-- `src/github-light.css` loads after the base CSS and contains the active GitHub-light presentation layer: colors, typography, controls, cards, and responsive rules.
+- `src/github-light.css` loads after the base CSS and contains the active presentation layer: themes, full-bleed layout, typography, controls, cards, and responsive rules.
 - `src/App.tsx` contains the theme selector, profile labels, and portfolio content. Its nearby comments mark the intended editing locations.
 
 When changing the visual system, update `src/github-light.css` first and keep this README in sync.
@@ -50,4 +50,4 @@ npm.cmd run preview
 
 Update placeholder text, email, location, social links, and project entries in `src/App.tsx`. The comments in that file identify the project-data and page-copy edit points.
 
-The CSS custom properties and `.theme-*` palette blocks in `src/github-light.css` control the active themes, including the theme-aware project-tag colors. The same file contains typography, responsive breakpoints, project-art placeholders, flat controls, and border treatments. Theme choices and profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
+The CSS custom properties and `.theme-*` palette blocks in `src/github-light.css` control the active themes, including the theme-aware project-tag colors. Its full-bleed layout rule makes the header and footer borders span the viewport, using a fluid edge gutter rather than a narrow centered desktop column; interior sections deliberately have no divider lines. The same file contains typography, breakpoints, project-art placeholders, flat controls, and border treatments. Theme choices and profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
