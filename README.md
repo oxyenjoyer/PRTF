@@ -2,7 +2,7 @@
 
 A responsive React, TypeScript, and Vite portfolio starter for a game developer.
 
-The current visual direction is a high-contrast developer portfolio with three selectable palettes: GitHub Light, GitHub Dark, and Midnight. All use flat surfaces, dark or light ink as appropriate, saturated highlights, crisp borders, and selective text strokes. It uses a system font stack and CSS only; no external game assets or web fonts are required.
+The current visual direction is a high-contrast developer portfolio with three selectable palettes: GitHub Light, GitHub Dark, and Midnight. Midnight uses a pitch-black canvas, near-black surfaces, white/slate text, and bright blue, green, and violet accents for readable contrast. All themes use flat surfaces, crisp borders, and selective text strokes. It uses a system font stack and CSS only; no external game assets or web fonts are required.
 
 ## Tech stack
 
@@ -50,4 +50,4 @@ npm.cmd run preview
 
 Update placeholder text, email, location, social links, and project entries in `src/App.tsx`. The comments in that file identify the project-data and page-copy edit points.
 
-The CSS custom properties and `.theme-*` palette blocks in `src/github-light.css` control the active themes. The same file contains typography, responsive breakpoints, project-art placeholders, flat controls, and border treatments. Theme choices and profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
+The CSS custom properties and `.theme-*` palette blocks in `src/github-light.css` control the active themes, including the theme-aware project-tag colors. The same file contains typography, responsive breakpoints, project-art placeholders, flat controls, and border treatments. Theme choices and profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
