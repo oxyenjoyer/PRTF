@@ -1,53 +1,56 @@
 # Game Developer Portfolio
 
-A responsive React, TypeScript, and Vite portfolio starter for a game developer.
+I built this responsive portfolio to share my game-development work, technical skills, and a few ways to get in touch. It is a single-page React app with selectable light and dark themes.
 
-The current visual direction is a high-contrast developer portfolio with three selectable palettes: GitHub Light, GitHub Dark, and Midnight. Midnight uses a pitch-black canvas, near-black surfaces, white/slate text, and bright blue, green, and violet accents for readable contrast. All themes use flat surfaces, crisp borders, and selective text strokes. It uses a system font stack and CSS only; no external game assets or web fonts are required.
+## Features
 
-## Tech stack
+- Responsive layout for mobile, laptop, and desktop screens
+- Project cards for games, prototypes, and experiments I have worked on
+- GitHub Light, GitHub Dark, and Midnight theme options
+- Accessible theme selector and visible keyboard focus states
 
-- **React** renders the portfolio sections and reusable project cards.
-- **TypeScript** provides type-safe application code.
-- **Vite** supplies the local development server and production build process.
-- **CSS** in `src/styles.css` controls the responsive layout and visual system.
+## Technology Stack
 
-## Project layout
+- React
+- TypeScript
+- Vite
+- CSS
 
-- `src/github-light.css` — active GitHub-light theme, palette, controls, and responsive overrides
+## Project Structure
 
-- `src/App.tsx` — page sections and portfolio content
-- `src/styles.css` — global styles and responsive layout
-- `src/main.tsx` — React entry point
-- `index.html` — browser HTML entry point
+- `src/App.tsx` — portfolio content, project data, and theme selector
+- `src/github-light.css` — active design system, theme palettes, layout, and responsive styles
+- `src/styles.css` — base application styles
+- `src/main.tsx` — application entry point and stylesheet imports
 
-## Theme architecture
+## Customization
 
-- `src/styles.css` holds the original base layout and shared responsive rules.
-- `src/github-light.css` loads after the base CSS and contains the active presentation layer: themes, full-bleed layout, typography, controls, cards, and responsive rules.
-- `src/App.tsx` contains the theme selector, profile labels, and portfolio content. Its nearby comments mark the intended editing locations.
+I update the `projects` array in `src/App.tsx` when I add or revise portfolio projects. The same file contains the profile labels, contact details, and social links. The header uses `businessEmail` (`realoxygenenjoyer@gmail.com`), while the contact section uses `contactEmail` (`c.kingshuksarkar@gmail.com`). Both links copy the relevant address when a visitor does not have a mail app configured.
 
-When changing the visual system, update `src/github-light.css` first and keep this README in sync.
+I manage the visual themes in `src/github-light.css`. The `.theme-*` blocks define the GitHub Light, GitHub Dark, and Midnight palettes.
 
-## Run locally
+## Profiles
 
-Install Node.js, then run these commands in this folder:
+- [GitHub](https://github.com/oxyenjoyer)
+- [itch.io](https://therealoxygenenjoyer.itch.io/)
+- [LinkedIn](https://www.linkedin.com/in/c-kingshuk-sarkar-91a312327/)
+
+## Local Development
+
+Install dependencies and start the development server:
 
 ```powershell
 npm.cmd install
 npm.cmd run dev
 ```
 
-Open the local address shown in the terminal, usually `http://localhost:5173`.
+Vite will display the local URL, typically `http://localhost:5173`.
 
-## Production build
+## Production Build
+
+Create and preview a production build:
 
 ```powershell
 npm.cmd run build
 npm.cmd run preview
 ```
-
-## Customizing
-
-Update placeholder text, email, location, social links, and project entries in `src/App.tsx`. The comments in that file identify the project-data and page-copy edit points.
-
-The CSS custom properties and `.theme-*` palette blocks in `src/github-light.css` control the active themes, including the theme-aware project-tag colors. Its full-bleed layout rule makes the header and footer's 3px borders span the viewport, using a fluid edge gutter rather than a narrow centered desktop column; their text uses enlarged, responsive typography while interior sections deliberately have no divider lines. The same file contains typography, breakpoints, project-art placeholders, flat controls, and border treatments. Theme choices and profile labels are in `src/App.tsx`. Update this README whenever the stack, page structure, or design system changes.
