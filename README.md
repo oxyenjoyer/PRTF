@@ -27,7 +27,7 @@ I built this responsive portfolio to share my game-development work, technical s
 
 I update the `projects` array in `src/App.tsx` when I add or revise portfolio projects. The same file contains the profile labels, contact details, and social links. The header uses `businessEmail` (`realoxygenenjoyer@gmail.com`), while the contact section uses `contactEmail` (`c.kingshuksarkar@gmail.com`). Both links copy the relevant address when a visitor does not have a mail app configured.
 
-I manage the visual themes in `src/github-light.css`. The `.theme-*` blocks define the GitHub Light, GitHub Dark, and Midnight palettes.
+I manage the visual themes and shared UI details in `src/github-light.css`. The `.theme-*` blocks define the GitHub Light, GitHub Dark, and Midnight palettes; the skills-list rules keep every skill row aligned consistently without stretching to match the adjacent biography content.
 
 ## Profiles
 
