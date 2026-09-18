@@ -1,13 +1,13 @@
 # Game Developer Portfolio
 
-I built this responsive portfolio to share my game-development work, technical skills, and a few ways to get in touch. It is a single-page React app with selectable light and dark themes.
+## Overview
 
-## Features
-
-- Responsive layout for mobile, laptop, and desktop screens
-- Project cards for games, prototypes, and experiments I have worked on
-- GitHub Light, GitHub Dark, and Midnight theme options
-- Accessible theme selector and visible keyboard focus states
+- Responsive single-page game developer portfolio
+- Project cards for games, prototypes, and experiments
+- Business and contact email links with clipboard fallback
+- LinkedIn, GitHub, and itch.io profile links
+- Full-bleed responsive layout
+- GitHub Light, GitHub Dark, and Midnight theme selector
 
 ## Technology Stack
 
@@ -16,18 +16,38 @@ I built this responsive portfolio to share my game-development work, technical s
 - Vite
 - CSS
 
+## Features
+
+- Mobile, laptop, and desktop responsive breakpoints
+- Theme-aware colors, tags, and hover states
+- High-contrast Midnight theme with pitch-black canvas
+- Keyboard-visible focus states
+- Smooth project-card lift, artwork brightness, and overlay outline on hover
+- Full-width header and footer borders
+- Consistent skills-list row alignment
+
 ## Project Structure
 
-- `src/App.tsx` — portfolio content, project data, and theme selector
-- `src/github-light.css` — active design system, theme palettes, layout, and responsive styles
-- `src/styles.css` — base application styles
-- `src/main.tsx` — application entry point and stylesheet imports
+- `src/App.tsx` — page content, project data, email constants, social links, and theme selector
+- `src/github-light.css` — themes, layout, responsive rules, cards, controls, and hover states
+- `src/styles.css` — base styles
+- `src/main.tsx` — React entry point and stylesheet imports
+- `public/projects/` — future project thumbnail images
+
+## Theme Options
+
+- GitHub Light
+- GitHub Dark
+- Midnight
 
 ## Customization
 
-I update the `projects` array in `src/App.tsx` when I add or revise portfolio projects. The same file contains the profile labels, contact details, and social links. The header uses `businessEmail` (`realoxygenenjoyer@gmail.com`), while the contact section uses `contactEmail` (`c.kingshuksarkar@gmail.com`). Both links copy the relevant address when a visitor does not have a mail app configured.
-
-I manage the visual themes and shared UI details in `src/github-light.css`. The `.theme-*` blocks define the GitHub Light, GitHub Dark, and Midnight palettes; the skills-list rules keep every skill row aligned consistently without stretching to match the adjacent biography content.
+- Project data: `projects` array in `src/App.tsx`
+- Business email: `businessEmail` constant in `src/App.tsx`
+- Contact email: `contactEmail` constant in `src/App.tsx`
+- Social links: footer links in `src/App.tsx`
+- Theme palettes: `.theme-*` blocks in `src/github-light.css`
+- Project thumbnails: add files to `public/projects/`, then reference them as `/projects/file-name.jpg`
 
 ## Profiles
 
@@ -37,18 +57,12 @@ I manage the visual themes and shared UI details in `src/github-light.css`. The 
 
 ## Local Development
 
-Install dependencies and start the development server:
-
 ```powershell
 npm.cmd install
 npm.cmd run dev
 ```
 
-Vite will display the local URL, typically `http://localhost:5173`.
-
 ## Production Build
-
-Create and preview a production build:
 
 ```powershell
 npm.cmd run build
