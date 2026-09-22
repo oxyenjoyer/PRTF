@@ -1,43 +1,28 @@
-# My Portfolio
+# Portfolio
+I made this portfolio to showcase my work and all important links and such <3
+Do let me know if you have any suggestions on this :D
+## Tech Stack
 
-## Overview
-
-- Responsive single-page game developer portfolio
-- Featured games, prototypes, and experiments
-- GitHub Light, GitHub Dark, and Midnight themes
-- Full-bleed layout with responsive support for mobile, laptop, and desktop screens
-
-## Features
-
-- Project cards with cover artwork and external project links
-- Clear, separated project status and role metadata
-- Technical and general skills grouped in a dedicated Skills box
-- Individually bordered skill groups for balanced lists of different lengths
-- Theme-aware colors, tags, and hover states
-- High-contrast Midnight theme
-- Blue-accent visual system without legacy voxel styling
-- Pastel-green availability status and theme-aware primary action buttons
-- Dedicated Skills box with Technical and General skill groups
-- Enlarged centered uppercase Skills heading for clearer section hierarchy
-- Page-load and scroll-triggered section reveal animations
-- Keyboard-visible focus states
-- LinkedIn, GitHub, and itch.io profile links
-- Inline brand-style icons beside social profile links
-
-## Technology Stack
-
-- React
+- React 19
 - TypeScript
 - Vite
-- CSS
+- HTML5
+- Modern CSS
+- CSS custom properties
+- CSS Grid
+- Flexbox
+- CSS media queries
+- CSS transitions
+- Intersection Observer API
+- Clipboard API
+- npm
 
-## Profiles
+## Requirements
 
-- [GitHub](https://github.com/oxyenjoyer)
-- [itch.io](https://therealoxygenenjoyer.itch.io/)
-- [LinkedIn](https://www.linkedin.com/in/c-kingshuk-sarkar-91a312327/)
+- Node.js 20+
+- npm
 
-## Local Development
+## Run Locally
 
 ```powershell
 npm.cmd install
