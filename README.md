@@ -10,6 +10,7 @@
 ## Features
 
 - Project cards with cover artwork and external project links
+- Clear, separated project status and role metadata
 - Theme-aware colors, tags, and hover states
 - High-contrast Midnight theme
 - Blue-accent visual system without legacy voxel styling
