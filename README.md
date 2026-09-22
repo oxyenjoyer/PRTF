@@ -1,4 +1,4 @@
-# Game Developer Portfolio
+# My Portfolio
 
 ## Overview
 
@@ -11,11 +11,14 @@
 
 - Project cards with cover artwork and external project links
 - Clear, separated project status and role metadata
+- Technical and general skills grouped in a dedicated Skills box
+- Individually bordered skill groups for balanced lists of different lengths
 - Theme-aware colors, tags, and hover states
 - High-contrast Midnight theme
 - Blue-accent visual system without legacy voxel styling
 - Pastel-green availability status and theme-aware primary action buttons
 - Dedicated Skills box with Technical and General skill groups
+- Enlarged centered uppercase Skills heading for clearer section hierarchy
 - Page-load and scroll-triggered section reveal animations
 - Keyboard-visible focus states
 - LinkedIn, GitHub, and itch.io profile links
