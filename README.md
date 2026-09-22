@@ -12,6 +12,9 @@
 - Project cards with cover artwork and external project links
 - Theme-aware colors, tags, and hover states
 - High-contrast Midnight theme
+- Blue-accent visual system without legacy voxel styling
+- Pastel-green availability status and theme-aware primary action buttons
+- Dedicated Skills box with Technical and General skill groups
 - Page-load and scroll-triggered section reveal animations
 - Keyboard-visible focus states
 - LinkedIn, GitHub, and itch.io profile links
