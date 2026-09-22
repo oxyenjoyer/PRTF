@@ -12,6 +12,7 @@
 - Project cards with cover artwork and external project links
 - Theme-aware colors, tags, and hover states
 - High-contrast Midnight theme
+- Page-load and scroll-triggered section reveal animations
 - Keyboard-visible focus states
 - LinkedIn, GitHub, and itch.io profile links
 

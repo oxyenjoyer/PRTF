@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Edit this data to add portfolio pieces; each item is rendered by the reusable card below.
 const projects = [
@@ -26,6 +26,33 @@ export default function App() {
       // The mailto link remains available if a browser blocks clipboard access.
     }
   }
+
+  // Direct page sections reveal on load or once they enter the viewport.
+  useEffect(() => {
+    const page = document.querySelector<HTMLElement>('.world')
+    if (!page) return
+
+    const sections = Array.from(page.children) as HTMLElement[]
+    page.classList.add('is-animated')
+    sections.forEach((section, index) => section.style.setProperty('--reveal-delay', `${Math.min(index * 45, 180)}ms`))
+
+    if (!('IntersectionObserver' in window)) {
+      sections.forEach(section => section.classList.add('is-visible'))
+      return
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.14 })
+
+    sections.forEach(section => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
 
   return <main className={`world theme-${theme}`}>
     <nav className="nav container"><a className="brand" href={`mailto:${businessEmail}?subject=Portfolio%20enquiry`} onClick={() => void copyEmail(businessEmail)}>Click for business email<span>.</span></a><div className="nav-tools"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><label className="theme-picker">Theme<select value={theme} onChange={event => setTheme(event.target.value as typeof theme)} aria-label="Select portfolio theme"><option value="light">Light</option><option value="dark">Dark</option><option value="midnight">Midnight</option></select></label></div></nav>

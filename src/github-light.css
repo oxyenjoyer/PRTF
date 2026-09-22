@@ -2,6 +2,9 @@
 :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}.world{--canvas:#f3f5f7;--surface:#ffffff;--surface-muted:#eef1f4;--border:#8c959f;--ink:#1f2328;--muted:#424a53;--accent:#0557c7;--accent-hover:#033d8b;--accent-soft:#cceeff;--success:#137333;--success-soft:#c8f1d4;--highlight:#fff1a8;--tag-bg:#ddf4ff;--tag-border:#75c9ef;--tag-ink:#03449b;--hover-outline:#000000;--stroke-light:#ffffff;--stroke-dark:#1f2328;color:var(--ink);background:var(--canvas)}
 *{box-shadow:none!important;text-shadow:none!important}body{overflow-x:clip;background:var(--canvas,#f3f5f7);image-rendering:auto}a{transition:color .15s ease,background-color .15s ease,border-color .15s ease;transform:none!important}.world{min-height:100vh;transition:background-color .2s ease,color .2s ease}
 
+/* Section entrance animation: direct page children reveal on load and as they enter the viewport. */
+.world.is-animated>*{opacity:0;transform:translateY(18px) scale(.985);transition:opacity .42s ease var(--reveal-delay,0ms),transform .42s cubic-bezier(.2,.8,.2,1) var(--reveal-delay,0ms)}.world.is-animated>*.is-visible{opacity:1;transform:translateY(0) scale(1)}@media(prefers-reduced-motion:reduce){.world.is-animated>*{opacity:1;transform:none;transition:none}}
+
 /* Full-bleed layout: use a fluid viewport gutter instead of a narrow centered desktop column. */
 .nav.container,.world-hud.container,.hero.container,.section.container,.contact.container,footer.container{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-left:clamp(24px,5vw,96px);padding-right:clamp(24px,5vw,96px)}
 
