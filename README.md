@@ -18,6 +18,7 @@
 - Page-load and scroll-triggered section reveal animations
 - Keyboard-visible focus states
 - LinkedIn, GitHub, and itch.io profile links
+- Inline brand-style icons beside social profile links
 
 ## Technology Stack
 
