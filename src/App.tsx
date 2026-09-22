@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 // Edit this data to add portfolio pieces; each item is rendered by the reusable card below.
 const projects = [
   { title: 'ManneKill', status: 'Released', role: 'Solo Developer', text: 'Its a wave based 3D FPS game made in Godot. The waves get harder and harder as time passes by. It only ends when your character dies.', tags: ['Godot', 'GDScript', 'FPS', 'Web-based'], image: '/projects/Mannekill.png', url: 'https://therealoxygenenjoyer.itch.io/mannekill' },
-  { title: 'Project Two', status: 'Prototype', role: 'Solo Developer', text: 'Use this space to communicate the genre, core loop, and what you learned building it.', tags: ['Unreal', 'Blueprints', 'Systems'] },
-  { title: 'Project Three', status: 'Released', role: 'Technical Designer', text: 'A concise overview that gives visitors a reason to explore the project further.', tags: ['Godot', 'GDScript', 'Tools'] },
+  { title: 'Project Two', status: 'Prototype', role: 'Solo Developer', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', tags: ['Unreal', 'Blueprints', 'Systems'] },
+  { title: 'Project Three', status: 'Released', role: 'Solo Developer', text: 'Lorem ipsum but I like to move it move it', tags: ['Godot', 'GDScript', 'Tools'] },
 ]
 
 // Keep these addresses separate: the header is for business enquiries, while the contact section is personal.
