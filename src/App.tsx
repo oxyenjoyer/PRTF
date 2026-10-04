@@ -10,6 +10,8 @@ const projects = [
 // Keep these addresses separate: the header is for business enquiries, while the contact section is personal.
 const businessEmail = 'realoxygenenjoyer@gmail.com'
 const contactEmail = 'c.kingshuksarkar@gmail.com'
+// Place the PDF at public/files/resume.pdf; BASE_URL keeps the link valid on GitHub Pages and local development.
+const resumeUrl = `${import.meta.env.BASE_URL}files/resume.pdf`
 
 // Portfolio section order and the placeholder copy live here; replace them as your work evolves.
 export default function App() {
@@ -69,7 +71,8 @@ export default function App() {
         <a href="https://discord.com/users/1292152472697307239" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 5.1A16.1 16.1 0 0 0 15.6 4l-.5 1a14.8 14.8 0 0 0-6.2 0l-.5-1a16.2 16.2 0 0 0-3.9 1.1C2.1 8.7 1.4 12.2 1.8 15.7a15.7 15.7 0 0 0 4.8 2.4l1.2-1.6a9.1 9.1 0 0 1-1.9-.9l.5-.4c3.7 1.7 7.7 1.7 11.4 0l.5.4a9 9 0 0 1-1.9.9l1.2 1.6a15.7 15.7 0 0 0 4.8-2.4c.5-4.1-.8-7.5-2.9-10.6ZM8.4 13.7c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm7.2 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z" /></svg>Discord</a>
       </div>
       <p className="lead">Hey there checking out my portfolio?</p>
-      <div className="actions"><a className="button" href="#work">View selected work</a><a href="#contact">Get in touch →</a></div>
+      {/* Keep this href aligned with the file in public/files whenever the resume is replaced. */}
+      <div className="actions"><a className="button" href={resumeUrl} download="Kingshuk-Sarkar-Resume.pdf">Download resume</a><a href="#contact">Get in touch →</a></div>
       <p className="meta">Based in India · Available for opportunities</p>
     </section>
     <section className="section container" id="work"><p className="eyebrow">Selected work</p><h2>Games, prototypes, and experiments.</h2><p className="intro">These are my top projects i.e. It's either successfull or it's something I am proud of or it is both.</p><div className="projects">{projects.map((project, i) => <article className="card" key={project.title}><div className={`art art-${i + 1}`}>Project visual</div><div className="card-body"><div className="topline"><span>{project.status}</span><span>{project.role}</span></div><h3>{project.title}</h3><p>{project.text}</p><div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><a href={project.url ?? '#'} target={project.url ? '_blank' : undefined} rel={project.url ? 'noreferrer' : undefined}>View project ↗</a></div></article>)}</div></section>

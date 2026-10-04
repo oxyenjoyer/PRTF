@@ -36,3 +36,9 @@ npm.cmd run dev
 npm.cmd run build
 npm.cmd run preview
 ```
+
+## Resume File
+
+The download path follows the configured Vite base URL, including the GitHub Pages `/PRTF/` subpath.
+
+Add the resume as `public/files/resume.pdf`. The hero’s Download resume button downloads this file directly.
