@@ -12,11 +12,7 @@ Do let me know if you have any suggestions on this :D
 - CSS custom properties
 - CSS Grid
 - Flexbox
-- CSS media queries
-- CSS overflow control
-- CSS text alignment
-- Native browser scrolling
-- CSS transitions
+- CSS
 - Intersection Observer API
 - Clipboard API
 - npm
