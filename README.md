@@ -13,6 +13,9 @@ Do let me know if you have any suggestions on this :D
 - CSS Grid
 - Flexbox
 - CSS media queries
+- CSS overflow control
+- CSS text alignment
+- Native browser scrolling
 - CSS transitions
 - Intersection Observer API
 - Clipboard API
@@ -36,9 +39,3 @@ npm.cmd run dev
 npm.cmd run build
 npm.cmd run preview
 ```
-
-## Resume File
-
-The download path follows the configured Vite base URL, including the GitHub Pages `/PRTF/` subpath.
-
-Add the resume as `public/files/resume.pdf`. The hero’s Download resume button downloads this file directly.
