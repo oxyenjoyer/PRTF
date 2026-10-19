@@ -1,84 +1,888 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { playClickSound, playAdvancementSound, isSoundEnabled, setSoundEnabled } from './sound'
 
-// Edit this data to add portfolio pieces; each item is rendered by the reusable card below.
-const projects = [
-  { title: 'ManneKill', status: 'Released', role: 'Solo Developer', text: 'Its a wave based 3D FPS game made in Godot. The waves get harder and harder as time passes by. It only ends when your character dies.', tags: ['Godot', 'GDScript', 'FPS', 'Web-based'], image: '/projects/Mannekill.png', url: 'https://therealoxygenenjoyer.itch.io/mannekill' },
-  { title: 'Project Two', status: 'Prototype', role: 'Solo Developer', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', tags: ['Unreal', 'Blueprints', 'Systems'] },
-  { title: 'Project Three', status: 'Released', role: 'Solo Developer', text: 'Lorem ipsum but I like to move it move it', tags: ['Godot', 'GDScript', 'Tools'] },
+type Screen = 'title' | 'singleplayer' | 'multiplayer' | 'skills' | 'options' | 'contact'
+
+interface Advancement {
+  title: string
+  desc: string
+  icon: string
+}
+
+interface SkillItem {
+  id: string
+  name: string
+  icon: string
+  count: number
+  tier: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary'
+  type: string
+  lore: string
+  stat: string
+}
+
+const SPLASHES = [
+  'Now with Godot 4 & GDScript!',
+  'ManneKill is free on itch.io!',
+  'Look ma, no bugs!',
+  'Level 99 Game Developer!',
+  'C++ & C# certified!',
+  'May contain Creepers!',
+  'Open to Work & Collaborations!',
+  '100% Pure Organic Code!',
+  'Press F to Pay Respects!',
+  "Don't dig straight down!",
+  'Also try Terraria!',
+  'Crafting worlds with passion!',
+  'Click me for more wisdom!',
 ]
 
-// Keep these addresses separate: the header is for business enquiries, while the contact section is personal.
-const businessEmail = 'realoxygenenjoyer@gmail.com'
-const contactEmail = 'c.kingshuksarkar@gmail.com'
-// Place the PDF at public/files/resume.pdf; BASE_URL keeps the link valid on GitHub Pages and local development.
-const resumeUrl = `${import.meta.env.BASE_URL}files/resume.pdf`
+const TECHNICAL_SKILLS: SkillItem[] = [
+  {
+    id: 'godot',
+    name: 'Godot Engine',
+    icon: 'GD',
+    count: 4,
+    tier: 'Legendary',
+    type: 'Primary Game Engine',
+    lore: 'Specialized in 3D & 2D game loops, scene tree architectures, and rapid mechanics prototyping.',
+    stat: '+100 Prototyping Speed, 3D Physics Mastery',
+  },
+  {
+    id: 'gdscript',
+    name: 'GDScript',
+    icon: 'GS',
+    count: 64,
+    tier: 'Epic',
+    type: 'Scripting Language',
+    lore: 'Fluent in event-driven systems, custom node logic, state machines, and shader integration.',
+    stat: '+95 Execution Fluidity, Signal Mastery',
+  },
+  {
+    id: 'unity',
+    name: 'Unity 3D',
+    icon: 'UN',
+    count: 20,
+    tier: 'Rare',
+    type: 'Secondary Game Engine',
+    lore: 'Extensive experience with component-based architecture, physics, Animator controllers, and UI Toolkit.',
+    stat: '+85 Cross-Platform Deployment',
+  },
+  {
+    id: 'csharp',
+    name: 'C# & C++',
+    icon: 'C#',
+    count: 32,
+    tier: 'Legendary',
+    type: 'Systems Programming',
+    lore: 'Strong foundational memory management, algorithmic problem solving, and object-oriented architectures.',
+    stat: '+90 Performance Optimization & Math',
+  },
+  {
+    id: 'blender',
+    name: 'Blender 3D',
+    icon: '3D',
+    count: 16,
+    tier: 'Rare',
+    type: '3D Modeling Tool',
+    lore: 'Capable of creating low-poly game assets, environmental props, UV mapping, and rigging animations.',
+    stat: '+75 Asset Creation & Spatial Design',
+  },
+  {
+    id: 'vfx',
+    name: 'Sound & VFX',
+    icon: 'FX',
+    count: 8,
+    tier: 'Uncommon',
+    type: 'Audio & Particle Craft',
+    lore: 'Designing impactful feedback loops, screen shakes, spatial audio, and dynamic particle systems.',
+    stat: '+80 Player Immersion & Juice',
+  },
+]
 
-// Portfolio section order and the placeholder copy live here; replace them as your work evolves.
+const GENERAL_SKILLS: SkillItem[] = [
+  {
+    id: 'gamedesign',
+    name: 'Game Design',
+    icon: 'DES',
+    count: 1,
+    tier: 'Legendary',
+    type: 'Core Discipline',
+    lore: 'Crafting addictive game loops, pacing, progression curves, and rewarding risk-reward mechanics.',
+    stat: '+100 Player Engagement',
+  },
+  {
+    id: 'leveldesign',
+    name: 'Level Design',
+    icon: 'LVL',
+    count: 3,
+    tier: 'Epic',
+    type: 'Spatial Flow',
+    lore: 'Guiding player attention through lighting, geometry, choke points, and visual landmarks.',
+    stat: '+90 Spatial Navigation & Flow',
+  },
+  {
+    id: 'leadership',
+    name: 'Leadership',
+    icon: 'LEAD',
+    count: 1,
+    tier: 'Rare',
+    type: 'Team Dynamic',
+    lore: 'Organizing sprint targets, inspiring fellow developers, and maintaining clear project visions.',
+    stat: '+85 Team Morale & Vision',
+  },
+  {
+    id: 'comm',
+    name: 'Communication',
+    icon: 'COM',
+    count: 64,
+    tier: 'Epic',
+    type: 'Collaboration',
+    lore: 'Articulate cross-disciplinary dialogue between artists, coders, and sound designers.',
+    stat: '+95 Clarity & Fast Turnaround',
+  },
+  {
+    id: 'reliability',
+    name: 'Reliability',
+    icon: 'REL',
+    count: 100,
+    tier: 'Legendary',
+    type: 'Character Trait',
+    lore: 'Committed to bug-free releases, clean git version control, and dependable milestone delivery.',
+    stat: '+100 Trust & Punctuality',
+  },
+]
+
 export default function App() {
-  // Add new options here and matching .theme-* variables in github-light.css.
-  const [theme, setTheme] = useState<'light' | 'dark' | 'midnight'>('light')
-  const [emailCopied, setEmailCopied] = useState(false)
+  const [screen, setScreen] = useState<Screen>('title')
+  const [splashIndex, setSplashIndex] = useState(0)
+  const [soundOn, setSoundOn] = useState(true)
+  const [particlesOn, setParticlesOn] = useState(true)
+  const [quakePro, setQuakePro] = useState(false)
+  const [selectedWorldIndex, setSelectedWorldIndex] = useState(0)
+  const [hoveredSkill, setHoveredSkill] = useState<SkillItem | null>(TECHNICAL_SKILLS[0])
+  const [advancement, setAdvancement] = useState<Advancement | null>(null)
+  const [copiedStatus, setCopiedStatus] = useState<string | null>(null)
 
-  // Mailto opens the visitor's configured mail app; copying provides a useful fallback when none is set.
-  async function copyEmail(email: string) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
+  const baseUrl = import.meta.env.BASE_URL
+  const resumeUrl = `${baseUrl}files/resume.pdf`
+  const panoramaUrl = `${baseUrl}panorama.jpg`
+  const dirtUrl = `${baseUrl}dirt.png`
+
+  const businessEmail = 'realoxygenenjoyer@gmail.com'
+  const personalEmail = 'c.kingshuksarkar@gmail.com'
+
+  const projects = [
+    {
+      title: 'ManneKill',
+      status: 'Released',
+      engine: 'Godot / GDScript',
+      role: 'Solo Developer',
+      image: `${baseUrl}projects/Mannekill.png`,
+      url: 'https://therealoxygenenjoyer.itch.io/mannekill',
+      desc: 'Its a wave based 3D FPS game made in Godot. The waves get harder and harder as time passes by. It only ends when your character dies.',
+      tags: ['Godot', 'GDScript', 'FPS', 'Web-based'],
+      date: 'Latest Release',
+    },
+    {
+      title: 'Project Two',
+      status: 'Prototype',
+      engine: 'Unreal / Blueprints',
+      role: 'Solo Developer',
+      image: null,
+      url: null,
+      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      tags: ['Unreal', 'Blueprints', 'Systems'],
+      date: 'Prototype',
+    },
+    {
+      title: 'Project Three',
+      status: 'Released',
+      engine: 'Godot / GDScript',
+      role: 'Solo Developer',
+      image: null,
+      url: null,
+      desc: 'Lorem ipsum but I like to move it move it',
+      tags: ['Godot', 'GDScript', 'Tools'],
+      date: 'Prototype',
+    },
+  ]
+
+  // Initialize sound preference
+  useEffect(() => {
+    setSoundOn(isSoundEnabled())
+  }, [])
+
+  // Show advancement toast
+  function triggerAdvancement(title: string, desc: string, icon = '*') {
+    playAdvancementSound()
+    setAdvancement({ title, desc, icon })
+    setTimeout(() => {
+      setAdvancement(null)
+    }, 4500)
+  }
+
+  // Button click handler with audio
+  function handleNavigate(target: Screen) {
+    playClickSound()
+    setScreen(target)
+  }
+
+  function handleSplashClick() {
+    playClickSound()
+    setSplashIndex(prev => (prev + 1) % SPLASHES.length)
+  }
+
+  function toggleSoundOption() {
+    playClickSound()
+    const next = !soundOn
+    setSoundOn(next)
+    setSoundEnabled(next)
+  }
+
+  async function copyToClipboard(email: string, label: string) {
+    playClickSound()
     try {
-      await navigator.clipboard?.writeText(email)
-      setEmailCopied(true)
+      await navigator.clipboard.writeText(email)
+      setCopiedStatus(label)
+      triggerAdvancement('Direct Whisper', `Copied ${label} to clipboard!`, '!')
+      setTimeout(() => setCopiedStatus(null), 3500)
     } catch {
-      // The mailto link remains available if a browser blocks clipboard access.
+      window.location.href = `mailto:${email}`
     }
   }
 
-  // Direct page sections reveal on load or once they enter the viewport.
+  function handleResumeDownload() {
+    playClickSound()
+    triggerAdvancement('Advancement Made!', 'The Real Game Dev - Resume Downloaded!', '*')
+  }
+
+  // Ambient floating particles canvas
   useEffect(() => {
-    const page = document.querySelector<HTMLElement>('.world')
-    if (!page) return
+    if (!particlesOn) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    const sections = Array.from(page.children) as HTMLElement[]
-    page.classList.add('is-animated')
-    sections.forEach((section, index) => section.style.setProperty('--reveal-delay', `${Math.min(index * 45, 180)}ms`))
+    let animId: number
+    const w = (canvas.width = window.innerWidth)
+    const h = (canvas.height = window.innerHeight)
 
-    if (!('IntersectionObserver' in window)) {
-      sections.forEach(section => section.classList.add('is-visible'))
-      return
+    const particles = Array.from({ length: 35 }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      size: Math.random() * 4 + 2,
+      speedY: Math.random() * 0.4 + 0.15,
+      speedX: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random() * 0.6 + 0.2,
+    }))
+
+    function render() {
+      if (!ctx) return
+      ctx.clearRect(0, 0, w, h)
+      particles.forEach(p => {
+        p.y -= p.speedY
+        p.x += p.speedX
+        if (p.y < -10) p.y = h + 10
+        if (p.x < -10) p.x = w + 10
+        if (p.x > w + 10) p.x = -10
+
+        ctx.fillStyle = `rgba(255, 230, 160, ${p.alpha})`
+        ctx.fillRect(Math.floor(p.x), Math.floor(p.y), Math.floor(p.size), Math.floor(p.size))
+      })
+      animId = requestAnimationFrame(render)
     }
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    }, { threshold: 0.14 })
+    render()
 
-    sections.forEach(section => observer.observe(section))
-    return () => observer.disconnect()
-  }, [])
+    const handleResize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    window.addEventListener('resize', handleResize)
 
-  return <main className={`world theme-${theme}`}>
-    <nav className="nav container"><a className="brand" href={`mailto:${businessEmail}?subject=Portfolio%20enquiry`} onClick={() => void copyEmail(businessEmail)}>Click for business email<span>.</span></a><div className="nav-tools"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><label className="theme-picker">Theme<select value={theme} onChange={event => setTheme(event.target.value as typeof theme)} aria-label="Select portfolio theme"><option value="light">Light</option><option value="dark">Dark</option><option value="midnight">Midnight</option></select></label></div></nav>
-    {/* Edit these compact profile labels to match your role, focus, and availability. */}
-    <div className="world-hud container"><span>PROFILE: Chhatrapati Kingshuk Sarkar</span><span>FOCUS: GAME DEVELOPMENT</span><span>STATUS: OPEN TO WORK</span></div>
-    <section className="hero container" id="top">
-      <p className="eyebrow">Game developer / designer</p>
-      <h1>I build games with my passion and to give a smile upon the player's face.</h1>
-      {/* Add or replace these profile links and their matching inline icons in this list. */}
-      <div className="hero-contacts" aria-label="Profile links">
-        <a href="https://www.linkedin.com/in/c-kingshuk-sarkar-91a312327/" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5ZM.23 8.08h4.54V23H.23V8.08ZM7.67 8.08h4.35v2.04h.06c.61-1.15 2.09-2.36 4.3-2.36 4.6 0 5.45 3.02 5.45 6.95V23h-4.53v-7.19c0-1.71-.03-3.91-2.38-3.91-2.38 0-2.75 1.86-2.75 3.79V23H7.67V8.08Z" /></svg>LinkedIn</a>
-        <a href="https://github.com/oxyenjoyer" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.64 1.22 3.28.93.1-.73.39-1.23.71-1.51-2.5-.28-5.13-1.25-5.13-5.57 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.1 1.16a10.75 10.75 0 0 1 5.64 0c2.15-1.46 3.1-1.16 3.1-1.16.61 1.55.23 2.7.11 2.98.72.79 1.16 1.8 1.16 3.03 0 4.33-2.63 5.28-5.14 5.56.4.35.76 1.04.76 2.1v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z" /></svg>GitHub</a>
-        <a href="https://therealoxygenenjoyer.itch.io/" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h10l3 5v7a2 2 0 0 1-2 2h-1.5l-2-3h-5l-2 3H6a2 2 0 0 1-2-2v-7l3-5Zm1.2 5.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm7.1-.8v1.4h-1.4v1.4h1.4v1.4h1.4v-1.4h1.4v-1.4h-1.4V10h-1.4Z" /></svg>itch.io</a>
-        <a href="https://discord.com/users/1292152472697307239" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 5.1A16.1 16.1 0 0 0 15.6 4l-.5 1a14.8 14.8 0 0 0-6.2 0l-.5-1a16.2 16.2 0 0 0-3.9 1.1C2.1 8.7 1.4 12.2 1.8 15.7a15.7 15.7 0 0 0 4.8 2.4l1.2-1.6a9.1 9.1 0 0 1-1.9-.9l.5-.4c3.7 1.7 7.7 1.7 11.4 0l.5.4a9 9 0 0 1-1.9.9l1.2 1.6a15.7 15.7 0 0 0 4.8-2.4c.5-4.1-.8-7.5-2.9-10.6ZM8.4 13.7c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm7.2 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z" /></svg>Discord</a>
-      </div>
-      <p className="lead">Hey there checking out my portfolio?</p>
-      {/* Keep this href aligned with the file in public/files whenever the resume is replaced. */}
-      <div className="actions"><a className="button" href={resumeUrl} download="Kingshuk-Sarkar-Resume.pdf">Download resume</a><a href="#contact">Get in touch →</a></div>
-      <p className="meta">Based in India · Available for opportunities</p>
-    </section>
-    <section className="section container" id="work"><p className="eyebrow">Selected work</p><h2>Games, prototypes, and experiments.</h2><p className="intro">These are my top projects i.e. It's either successfull or it's something I am proud of or it is both.</p><div className="projects">{projects.map((project, i) => <article className="card" key={project.title}><div className={`art art-${i + 1}`}>Project visual</div><div className="card-body"><div className="topline"><span>{project.status}</span><span>{project.role}</span></div><h3>{project.title}</h3><p>{project.text}</p><div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><a href={project.url ?? '#'} target={project.url ? '_blank' : undefined} rel={project.url ? 'noreferrer' : undefined}>View project ↗</a></div></article>)}</div></section>
-    {/* Keep technical and general strengths separate here so the Skills box is easy to update. */}
-    <section className="section about container" id="about"><div><p className="eyebrow">About me</p><h2>Developer first. Player always.</h2><p className="intro">I am a huge gamer and I always play games that I like but one thing that always bothered me was the working behind it all. How this thing works? How was this made? This curiosity and the instatiable urge to create something amazing made me pursue game development. To create a world where I can edit and make things to my liking in infinite possibilities is what drives me crazy for game development. Yes I am passionate about this field and I love it :)</p></div><aside className="skills-box" aria-labelledby="skills-title"><h3 id="skills-title">Skills</h3><div className="skills-groups"><div className="skills"><h4>Technical</h4>{['Godot', 'GDScript', 'Unity', 'C#', 'C++', 'Blender', 'Sound and VFX', 'UI'].map((skill, i) => <p key={skill}><span>0{i + 1}</span>{skill}</p>)}</div><div className="skills"><h4>General</h4>{['Game design', 'Level design', 'Leadership', 'Team communication', 'Reliability'].map((skill, i) => <p key={skill}><span>0{i + 1}</span>{skill}</p>)}</div></div></aside></section>
-    <section className="contact container" id="contact"><p className="eyebrow">Contact</p><h2>Contact me here :-</h2><a href={`mailto:${contactEmail}?subject=Portfolio%20enquiry`} onClick={() => void copyEmail(contactEmail)}>{contactEmail}↗</a><p className="email-status" role="status">{emailCopied ? 'Email address copied to your clipboard.' : 'Click the email address.'}</p></section>
-    <footer className="container"><span>© {new Date().getFullYear()} CKS</span><div className="social-links"><a href="https://www.linkedin.com/in/c-kingshuk-sarkar-91a312327/" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5ZM.23 8.08h4.54V23H.23V8.08ZM7.67 8.08h4.35v2.04h.06c.61-1.15 2.09-2.36 4.3-2.36 4.6 0 5.45 3.02 5.45 6.95V23h-4.53v-7.19c0-1.71-.03-3.91-2.38-3.91-2.38 0-2.75 1.86-2.75 3.79V23H7.67V8.08Z" /></svg>LinkedIn</a><a href="https://therealoxygenenjoyer.itch.io/" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h10l3 5v7a2 2 0 0 1-2 2h-1.5l-2-3h-5l-2 3H6a2 2 0 0 1-2-2v-7l3-5Zm1.2 5.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Zm7.1-.8v1.4h-1.4v1.4h1.4v1.4h1.4v-1.4h1.4v-1.4h-1.4V10h-1.4Z" /></svg>itch.io</a><a href="https://github.com/oxyenjoyer" target="_blank" rel="noreferrer"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.64 1.22 3.28.93.1-.73.39-1.23.71-1.51-2.5-.28-5.13-1.25-5.13-5.57 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.1 1.16a10.75 10.75 0 0 1 5.64 0c2.15-1.46 3.1-1.16 3.1-1.16.61 1.55.23 2.7.11 2.98.72.79 1.16 1.8 1.16 3.03 0 4.33-2.63 5.28-5.14 5.56.4.35.76 1.04.76 2.1v3.12c0 .3.2.65.78.54A11.3 11.3 0 0 0 12 .7Z" /></svg>GitHub</a></div></footer>
-  </main>
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [particlesOn])
+
+  return (
+    <div
+      className={`mc-app ${quakePro ? 'quake-pro' : ''}`}
+      style={{ '--mc-dirt-url': `url(${dirtUrl})` } as React.CSSProperties}
+    >
+      {/* Background Panorama & Vignette */}
+      <div
+        className="mc-bg-panorama"
+        style={{ backgroundImage: `url(${panoramaUrl})` }}
+      />
+      <div className="mc-vignette" />
+
+      {/* Ambient Floating Particles */}
+      {particlesOn && <canvas ref={canvasRef} className="mc-particles" />}
+
+      {/* Advancement Made Toast Popup */}
+      {advancement && (
+        <div className="mc-advancement-toast" role="status" aria-live="polite">
+          <div className="mc-advancement-icon">{advancement.icon}</div>
+          <div className="mc-advancement-info">
+            <span className="mc-advancement-title">{advancement.title}</span>
+            <span className="mc-advancement-desc">{advancement.desc}</span>
+          </div>
+        </div>
+      )}
+
+      {/* ===================================================================
+          1. TITLE SCREEN (MINECRAFT MAIN MENU)
+         =================================================================== */}
+      {screen === 'title' && (
+        <main className="mc-title-screen">
+          {/* Logo with Bouncing Yellow Splash */}
+          <header className="mc-logo-wrapper">
+            <h1 className="mc-logo-title">KINGSHUK</h1>
+            <p className="mc-logo-subtitle">GAME DEVELOPER & DESIGNER</p>
+            <span
+              className="mc-splash-text"
+              onClick={handleSplashClick}
+              title="Click for next splash!"
+              role="button"
+              tabIndex={0}
+            >
+              {SPLASHES[splashIndex]}
+            </span>
+          </header>
+
+          {/* Main Menu Buttons */}
+          <nav className="mc-menu-list" aria-label="Portfolio Main Menu">
+            <button
+              className="mc-button btn-wide"
+              onClick={() => handleNavigate('singleplayer')}
+              aria-label="Singleplayer - View Games and Projects"
+            >
+              Singleplayer (Games & Projects)
+            </button>
+
+            <button
+              className="mc-button btn-wide"
+              onClick={() => handleNavigate('multiplayer')}
+              aria-label="Multiplayer - About Kingshuk and Server Info"
+            >
+              Multiplayer (About Me & Bio)
+            </button>
+
+            <button
+              className="mc-button btn-wide"
+              onClick={() => handleNavigate('skills')}
+              aria-label="Advancements and Skills Inventory"
+            >
+              Character Inventory (Skills)
+            </button>
+
+            <div className="mc-menu-row">
+              <button
+                className="mc-button btn-half"
+                onClick={() => handleNavigate('options')}
+                aria-label="Options and Settings"
+              >
+                Options...
+              </button>
+              <button
+                className="mc-button btn-half"
+                onClick={() => handleNavigate('contact')}
+                aria-label="Direct Connect and Contact"
+              >
+                Direct Connect...
+              </button>
+            </div>
+
+            <div className="mc-menu-row">
+              <a
+                className="mc-button btn-half btn-green"
+                href={resumeUrl}
+                download="Kingshuk-Sarkar-Resume.pdf"
+                onClick={handleResumeDownload}
+                title="Download PDF Resume"
+              >
+                Download Resume
+              </a>
+              <button
+                className="mc-button btn-half"
+                onClick={toggleSoundOption}
+                title="Toggle Web Audio SFX"
+              >
+                {soundOn ? 'SFX: ON' : 'SFX: OFF'}
+              </button>
+            </div>
+          </nav>
+
+          {/* Title Screen Footer */}
+          <footer className="mc-title-footer">
+            <span>Minecraft Beta 1.8.1 (Kingshuk Edition)</span>
+            <span>
+              Copyright Mojang AB /{' '}
+              <a href="https://github.com/oxyenjoyer" target="_blank" rel="noreferrer">
+                Kingshuk Sarkar
+              </a>{' '}
+              · Open to Work
+            </span>
+          </footer>
+        </main>
+      )}
+
+      {/* ===================================================================
+          2. SINGLEPLAYER SCREEN (SELECT WORLD / PROJECTS)
+         =================================================================== */}
+      {screen === 'singleplayer' && (
+        <section className="mc-dirt-screen" aria-label="Select World Projects">
+          <header className="mc-screen-header">
+            <h2 className="mc-screen-title">Select World (Games & Projects)</h2>
+          </header>
+
+          <div className="mc-screen-content">
+            <div className="mc-world-list">
+              {projects.map((proj, idx) => (
+                <article
+                  key={proj.title}
+                  className={`mc-world-card ${selectedWorldIndex === idx ? 'is-selected' : ''}`}
+                  onClick={() => {
+                    playClickSound()
+                    setSelectedWorldIndex(idx)
+                  }}
+                >
+                  <div
+                    className="mc-world-thumbnail"
+                    style={proj.image ? { backgroundImage: `url(${proj.image})` } : undefined}
+                  >
+                    {!proj.image && <span className="mc-world-placeholder-badge">PROTOTYPE</span>}
+                  </div>
+                  <div className="mc-world-details">
+                    <div className="mc-world-header-row">
+                      <h3 className="mc-world-name">{proj.title}</h3>
+                      <span className={`mc-world-status ${proj.status.toLowerCase()}`}>
+                        {proj.status}
+                      </span>
+                    </div>
+
+                    <p className="mc-world-subline">
+                      {proj.engine} · {proj.role} ({proj.date})
+                    </p>
+
+                    <p className="mc-world-desc">{proj.desc}</p>
+
+                    <div className="mc-world-tags">
+                      {proj.tags.map(tag => (
+                        <span key={tag} className="mc-world-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mc-world-actions">
+                      {proj.url ? (
+                        <a
+                          className="mc-button btn-green"
+                          href={proj.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={e => {
+                            e.stopPropagation()
+                            playClickSound()
+                            triggerAdvancement('World Explored', `Launched ${proj.title}!`, '*')
+                          }}
+                        >
+                          Play / View Project ↗
+                        </a>
+                      ) : (
+                        <button className="mc-button" disabled>
+                          Prototype (WIP)
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <footer className="mc-screen-footer">
+            {projects[selectedWorldIndex].url ? (
+              <a
+                className="mc-button btn-wide btn-green"
+                href={projects[selectedWorldIndex].url!}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  playClickSound()
+                  triggerAdvancement('World Loaded', `Joined ${projects[selectedWorldIndex].title}!`, '*')
+                }}
+              >
+                Play Selected World ↗
+              </a>
+            ) : (
+              <button className="mc-button btn-wide" disabled>
+                Selected: Prototype (WIP)
+              </button>
+            )}
+            <button
+              className="mc-button btn-half"
+              onClick={() => handleNavigate('title')}
+            >
+              Cancel
+            </button>
+          </footer>
+        </section>
+      )}
+
+      {/* ===================================================================
+          3. MULTIPLAYER SCREEN (SERVER BROWSER & ABOUT ME)
+         =================================================================== */}
+      {screen === 'multiplayer' && (
+        <section className="mc-dirt-screen" aria-label="Multiplayer Server Browser">
+          <header className="mc-screen-header">
+            <h2 className="mc-screen-title">Play Multiplayer (About Kingshuk)</h2>
+          </header>
+
+          <div className="mc-screen-content">
+            <div className="mc-server-card">
+              <div className="mc-server-icon">K</div>
+              <div className="mc-server-info">
+                <div className="mc-server-title-row">
+                  <h3 className="mc-server-name">Kingshuk's Creative Realm [24/7 Dedicated Server]</h3>
+                  <div className="mc-server-ping">
+                    <span>1/1 Online</span>
+                    <div className="mc-ping-bars" title="Ping: 12ms (5 Bars)">
+                      <div className="mc-ping-bar" />
+                      <div className="mc-ping-bar" />
+                      <div className="mc-ping-bar" />
+                      <div className="mc-ping-bar" />
+                      <div className="mc-ping-bar" />
+                    </div>
+                  </div>
+                </div>
+                <p className="mc-motd-1">§aGame Developer & Designer §r| §6Level 99 Passionate Gamer</p>
+                <p className="mc-motd-2">§e"Curiosity and the insatiable urge to create amazing worlds..."</p>
+              </div>
+            </div>
+
+            <article className="mc-about-panel">
+              <h3 className="mc-inv-section-title" style={{ color: '#ffffff' }}>
+                Server Lore & Developer Bio
+              </h3>
+
+              <p className="mc-about-story">
+                I am a huge gamer and I always play games that I like, but one thing that always bothered
+                me was the working behind it all. <em>How does this thing work? How was this made?</em>
+              </p>
+
+              <p className="mc-about-story">
+                This relentless curiosity and the insatiable urge to create something amazing made me
+                pursue game development. To create an interactive world where I can edit, simulate, and
+                sculpt things to my liking with infinite possibilities is what drives me crazy for game
+                development.
+              </p>
+
+              <p className="mc-about-story" style={{ color: '#55ffff' }}>
+                Yes, I am fiercely passionate about this field and I love every single pixel of it! :D
+              </p>
+
+              <div className="mc-player-hud">
+                <div className="mc-hud-item">
+                  <span className="mc-hud-label">HEALTH:</span>
+                  <span className="mc-hud-val">20 / 20</span>
+                </div>
+                <div className="mc-hud-item">
+                  <span className="mc-hud-label">HUNGER:</span>
+                  <span className="mc-hud-val">20 / 20 (Max)</span>
+                </div>
+                <div className="mc-hud-item">
+                  <span className="mc-hud-label">LEVEL:</span>
+                  <span className="mc-hud-val">23 Game Dev</span>
+                </div>
+                <div className="mc-hud-item">
+                  <span className="mc-hud-label">STATUS:</span>
+                  <span className="mc-hud-val" style={{ color: '#55ff55' }}>
+                    Open to Work (India / Remote)
+                  </span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <footer className="mc-screen-footer">
+            <button
+              className="mc-button btn-half btn-green"
+              onClick={() => handleNavigate('contact')}
+            >
+              Direct Connect...
+            </button>
+            <button
+              className="mc-button btn-half"
+              onClick={() => handleNavigate('title')}
+            >
+              Back to Title
+            </button>
+          </footer>
+        </section>
+      )}
+
+      {/* ===================================================================
+          4. SKILLS & INVENTORY SCREEN
+         =================================================================== */}
+      {screen === 'skills' && (
+        <section className="mc-dirt-screen" aria-label="Skills & Inventory">
+          <header className="mc-screen-header">
+            <h2 className="mc-screen-title">Character Inventory & Equipment</h2>
+          </header>
+
+          <div className="mc-screen-content">
+            <div className="mc-inventory-window">
+              <div>
+                <h3 className="mc-inv-section-title">Hotbar Equipment (Technical Skills)</h3>
+                <div className="mc-slots-grid">
+                  {TECHNICAL_SKILLS.map(skill => (
+                    <div
+                      key={skill.id}
+                      className="mc-slot"
+                      onClick={() => {
+                        playClickSound()
+                        setHoveredSkill(skill)
+                      }}
+                      onMouseEnter={() => setHoveredSkill(skill)}
+                    >
+                      <span className="mc-slot-icon">{skill.icon}</span>
+                      <span className="mc-slot-name">{skill.name}</span>
+                      <span className="mc-slot-count">{skill.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="mc-inv-section-title">Chest Storage (General & Design Strengths)</h3>
+                <div className="mc-slots-grid">
+                  {GENERAL_SKILLS.map(skill => (
+                    <div
+                      key={skill.id}
+                      className="mc-slot"
+                      onClick={() => {
+                        playClickSound()
+                        setHoveredSkill(skill)
+                      }}
+                      onMouseEnter={() => setHoveredSkill(skill)}
+                    >
+                      <span className="mc-slot-icon">{skill.icon}</span>
+                      <span className="mc-slot-name">{skill.name}</span>
+                      <span className="mc-slot-count">{skill.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Minecraft Item Tooltip Display */}
+              {hoveredSkill && (
+                <div className="mc-tooltip-box" role="region" aria-label="Item Tooltip">
+                  <div className="mc-tooltip-title">§b{hoveredSkill.name}</div>
+                  <div className="mc-tooltip-rarity">
+                    Tier: {hoveredSkill.tier} · {hoveredSkill.type}
+                  </div>
+                  <p className="mc-tooltip-desc">"{hoveredSkill.lore}"</p>
+                  <p className="mc-tooltip-stat">▶ {hoveredSkill.stat}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <footer className="mc-screen-footer">
+            <a
+              className="mc-button btn-wide btn-green"
+              href={resumeUrl}
+              download="Kingshuk-Sarkar-Resume.pdf"
+              onClick={handleResumeDownload}
+            >
+              Download Resume (PDF)
+            </a>
+            <button
+              className="mc-button btn-half"
+              onClick={() => handleNavigate('title')}
+            >
+              Back to Title
+            </button>
+          </footer>
+        </section>
+      )}
+
+      {/* ===================================================================
+          5. CONTACT / DIRECT CONNECT SCREEN
+         =================================================================== */}
+      {screen === 'contact' && (
+        <section className="mc-dirt-screen" aria-label="Direct Connect and Contact">
+          <header className="mc-screen-header">
+            <h2 className="mc-screen-title">Direct Connect (Contact & Socials)</h2>
+          </header>
+
+          <div className="mc-screen-content">
+            <div className="mc-contact-box">
+              <div className="mc-chat-history">
+                <p className="mc-chat-msg server">&lt;Server&gt; Connected to Kingshuk's direct comms channel.</p>
+                <p className="mc-chat-msg kingshuk">&lt;Kingshuk&gt; Hey! Looking for a game developer or want to collaborate?</p>
+                <p className="mc-chat-msg info">&lt;Server&gt; Click an email address below to copy it instantly:</p>
+              </div>
+
+              {/* Business Email */}
+              <div className="mc-email-row">
+                <span className="mc-email-label">BUSINESS INQUIRIES:</span>
+                <div className="mc-email-value-wrap">
+                  <span className="mc-email-value">{businessEmail}</span>
+                  <button
+                    className="mc-button btn-green"
+                    onClick={() => copyToClipboard(businessEmail, 'Business Email')}
+                  >
+                    {copiedStatus === 'Business Email' ? 'Copied!' : 'Copy Email'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Personal Email */}
+              <div className="mc-email-row">
+                <span className="mc-email-label">PERSONAL / DIRECT:</span>
+                <div className="mc-email-value-wrap">
+                  <span className="mc-email-value">{personalEmail}</span>
+                  <button
+                    className="mc-button btn-green"
+                    onClick={() => copyToClipboard(personalEmail, 'Personal Email')}
+                  >
+                    {copiedStatus === 'Personal Email' ? 'Copied!' : 'Copy Email'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Social Channels */}
+              <div className="mc-socials-grid">
+                <a
+                  className="mc-button"
+                  href="https://www.linkedin.com/in/c-kingshuk-sarkar-91a312327/"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={playClickSound}
+                >
+                  LinkedIn ↗
+                </a>
+
+                <a
+                  className="mc-button"
+                  href="https://therealoxygenenjoyer.itch.io/"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={playClickSound}
+                >
+                  itch.io Profile ↗
+                </a>
+
+                <a
+                  className="mc-button"
+                  href="https://github.com/oxyenjoyer"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={playClickSound}
+                >
+                  GitHub ↗
+                </a>
+
+                <a
+                  className="mc-button"
+                  href="https://discord.com/users/1292152472697307239"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={playClickSound}
+                >
+                  Discord Profile ↗
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <footer className="mc-screen-footer">
+            <button
+              className="mc-button btn-wide"
+              onClick={() => handleNavigate('title')}
+            >
+              Back to Title
+            </button>
+          </footer>
+        </section>
+      )}
+
+      {/* ===================================================================
+          6. OPTIONS SCREEN
+         =================================================================== */}
+      {screen === 'options' && (
+        <section className="mc-dirt-screen" aria-label="Game Options">
+          <header className="mc-screen-header">
+            <h2 className="mc-screen-title">Options...</h2>
+          </header>
+
+          <div className="mc-screen-content">
+            <div className="mc-options-grid">
+              <button className="mc-button" onClick={toggleSoundOption}>
+                Audio SFX: {soundOn ? 'ON' : 'OFF'}
+              </button>
+
+              <button
+                className="mc-button"
+                onClick={() => {
+                  playClickSound()
+                  setParticlesOn(!particlesOn)
+                }}
+              >
+                Particles: {particlesOn ? 'ON' : 'OFF'}
+              </button>
+
+              <button
+                className="mc-button"
+                onClick={() => {
+                  playClickSound()
+                  setQuakePro(!quakePro)
+                }}
+              >
+                FOV: {quakePro ? 'QUAKE PRO' : 'NORMAL'}
+              </button>
+
+              <button
+                className="mc-button"
+                onClick={() => {
+                  playClickSound()
+                  triggerAdvancement('Testing Sound', 'Ding! All sound systems nominal.', '*')
+                }}
+              >
+                Test Sound Chime
+              </button>
+
+              <div className="mc-options-full">
+                <a
+                  className="mc-button btn-wide btn-green"
+                  href={resumeUrl}
+                  download="Kingshuk-Sarkar-Resume.pdf"
+                  onClick={handleResumeDownload}
+                >
+                  Download Resume (Kingshuk-Sarkar-Resume.pdf)
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <footer className="mc-screen-footer">
+            <button
+              className="mc-button btn-wide"
+              onClick={() => handleNavigate('title')}
+            >
+              Done
+            </button>
+          </footer>
+        </section>
+      )}
+    </div>
+  )
 }

@@ -1,0 +1,992 @@
+/* ==========================================================================
+   MINECRAFT PORTFOLIO THEME - COMPLETE DESIGN SYSTEM
+   ========================================================================== */
+
+/* Authentic Minecraft Font */
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --mc-font: 'Minecraft', monospace, sans-serif;
+  --mc-font-pixel: 'Minecraft', monospace;
+  --mc-text-shadow: 2px 2px 0px #3f3f3f;
+  --mc-yellow-shadow: 2px 2px 0px #3f3f00;
+  
+  /* Palette */
+  --mc-dark-bg: #111111;
+  --mc-dirt-base: #49331d;
+  --mc-panel-bg: #c6c6c6;
+  --mc-panel-dark: #373737;
+  --mc-btn-bg: #707070;
+  --mc-btn-hover: #7b7bb2;
+  --mc-btn-text: #e0e0e0;
+  --mc-btn-hover-text: #ffffa0;
+  --mc-tooltip-bg: #100010;
+  --mc-tooltip-border: #2e0854;
+  --mc-tooltip-sub: #180530;
+  
+  /* Text colors */
+  --mc-text-white: #ffffff;
+  --mc-text-gray: #aaaaaa;
+  --mc-text-gold: #ffaa00;
+  --mc-text-yellow: #ffff55;
+  --mc-text-green: #55ff55;
+  --mc-text-aqua: #55ffff;
+  --mc-text-red: #ff5555;
+  --mc-text-purple: #aa00aa;
+}
+
+/* Base resets & pixel perfection */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--mc-font);
+  color: var(--mc-text-white);
+  background-color: #000000;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Minecraft Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+  border-left: 2px solid #333333;
+}
+::-webkit-scrollbar-thumb {
+  background: #555555;
+  border: 2px solid #888888;
+  border-right-color: #222222;
+  border-bottom-color: #222222;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}
+
+/* Main Container */
+.mc-app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quake Pro FOV Easter Egg */
+.mc-app.quake-pro {
+  transform: perspective(1000px) scale(1.02);
+  filter: contrast(1.05);
+}
+
+/* Ambient Panorama Background */
+.mc-bg-panorama {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transition: transform 20s ease-in-out;
+  transform: scale(1.05);
+}
+
+/* Ambient Panorama Background - High-resolution static Minecraft scene */
+.mc-bg-panorama {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  transform: none;
+}
+
+/* Dark Vignette Overlay */
+.mc-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.65) 100%),
+              linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.35));
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Particle Canvas */
+.mc-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Tiled Real Seamless Dirt Background (Submenus) */
+.mc-dirt-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: #2b1f14;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  animation: mcScreenFadeIn 0.15s ease-out;
+}
+
+@keyframes mcScreenFadeIn {
+  from { opacity: 0; transform: scale(0.995); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Screen Top & Bottom Bars with darker dirt background */
+.mc-screen-header {
+  position: relative;
+  z-index: 2;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.86)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  border-bottom: 2px solid #000000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.mc-screen-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: var(--mc-text-shadow);
+  letter-spacing: 1px;
+}
+
+.mc-screen-footer {
+  position: relative;
+  z-index: 2;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.86)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  border-top: 2px solid #000000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.8);
+  padding: 0 20px;
+}
+
+.mc-screen-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ==========================================================================
+   MINECRAFT BUTTONS
+   ========================================================================== */
+
+.mc-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 16px;
+  font-family: var(--mc-font);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--mc-btn-text);
+  text-shadow: var(--mc-text-shadow);
+  text-align: center;
+  background: #6c6c6c;
+  border: 2px solid #000000;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  box-shadow: 
+    inset 2px 2px 0px rgba(255, 255, 255, 0.35),
+    inset -2px -2px 0px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.08s ease, color 0.08s ease;
+  user-select: none;
+  image-rendering: pixelated;
+}
+
+.mc-button:hover:not(:disabled) {
+  background: var(--mc-btn-hover);
+  color: var(--mc-btn-hover-text);
+  text-shadow: var(--mc-yellow-shadow);
+}
+
+.mc-button:active:not(:disabled) {
+  background: #505050;
+  box-shadow: 
+    inset -2px -2px 0px rgba(255, 255, 255, 0.25),
+    inset 2px 2px 0px rgba(0, 0, 0, 0.8);
+  transform: translateY(1px);
+}
+
+.mc-button:disabled {
+  background: #3a3a3a;
+  color: #777777;
+  cursor: not-allowed;
+  box-shadow: 
+    inset 2px 2px 0px rgba(255, 255, 255, 0.1),
+    inset -2px -2px 0px rgba(0, 0, 0, 0.4);
+}
+
+.mc-button.btn-wide {
+  width: 100%;
+  max-width: 400px;
+}
+
+.mc-button.btn-half {
+  flex: 1;
+  max-width: 194px;
+}
+
+.mc-button.btn-square {
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+}
+
+.mc-button.btn-green {
+  background: #2e7d32;
+}
+.mc-button.btn-green:hover:not(:disabled) {
+  background: #388e3c;
+  color: #ffffa0;
+}
+
+/* ==========================================================================
+   TITLE SCREEN (MAIN MENU)
+   ========================================================================== */
+
+.mc-title-screen {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 16px 20px;
+}
+
+/* Logo & Title Header */
+.mc-logo-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(20px, 6vh, 60px);
+}
+
+.mc-logo-title {
+  font-family: var(--mc-font-pixel);
+  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #d6d6d6;
+  text-shadow: 
+    0px 2px 0px #aaaaaa,
+    0px 4px 0px #888888,
+    0px 6px 0px #555555,
+    0px 8px 0px #222222,
+    3px 8px 0px #111111,
+    -3px 8px 0px #111111,
+    0px 10px 10px rgba(0, 0, 0, 0.85);
+  text-align: center;
+  line-height: 1.1;
+  transform: scaleY(1.08);
+}
+
+.mc-logo-subtitle {
+  font-family: var(--mc-font);
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #ffaa00;
+  text-shadow: 2px 2px 0px #3f2200;
+  margin-top: 4px;
+}
+
+/* Bouncing Yellow Splash Text */
+.mc-splash-text {
+  position: absolute;
+  right: -20px;
+  bottom: -22px;
+  font-family: var(--mc-font);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: #ffff00;
+  text-shadow: 2px 2px 0px #3f3f00;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: rotate(-20deg);
+  animation: mcSplashPulse 1.4s infinite alternate ease-in-out;
+  z-index: 10;
+  transition: color 0.15s ease;
+}
+
+.mc-splash-text:hover {
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+@keyframes mcSplashPulse {
+  0% { transform: rotate(-20deg) scale(0.96); }
+  100% { transform: rotate(-20deg) scale(1.08); }
+}
+
+/* Menu Buttons Column */
+.mc-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: auto 0;
+}
+
+.mc-menu-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Bottom Bar Info */
+.mc-title-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: var(--mc-text-shadow);
+  padding: 0 12px;
+}
+
+.mc-title-footer a {
+  color: #55ffff;
+  text-decoration: none;
+}
+.mc-title-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   ADVANCEMENT TOAST POPUP
+   ========================================================================== */
+
+.mc-advancement-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #212121;
+  border: 2px solid #373737;
+  border-radius: 4px;
+  padding: 12px 18px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 2px #555555;
+  animation: mcToastSlideIn 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes mcToastSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.mc-advancement-icon {
+  width: 38px;
+  height: 38px;
+  background: #ffaa00;
+  border: 2px solid #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  box-shadow: 0 0 10px #ffaa00;
+}
+
+.mc-advancement-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-advancement-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffff55;
+  text-shadow: var(--mc-yellow-shadow);
+}
+
+.mc-advancement-desc {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: var(--mc-text-shadow);
+}
+
+/* ==========================================================================
+   SINGLEPLAYER SCREEN (SELECT WORLD / PROJECTS)
+   ========================================================================== */
+
+.mc-world-list {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mc-world-card {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 2px solid #555555;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.mc-world-card:hover, .mc-world-card.is-selected {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: #ffffff;
+  outline: 2px solid #ffffff;
+}
+
+.mc-world-thumbnail {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #2b241c;
+  border: 2px solid #555555;
+  box-shadow: inset 2px 2px 0 #1a1a1a, inset -2px -2px 0 #444444;
+  image-rendering: auto;
+  display: grid;
+  place-items: center;
+}
+
+.mc-world-placeholder-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffaa00;
+  text-shadow: 1px 1px 0 #000;
+  padding: 4px 6px;
+  border: 1px dashed #777777;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.mc-world-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mc-world-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mc-world-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: var(--mc-text-shadow);
+}
+
+.mc-world-status {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #1b5e20;
+  border: 1px solid #4caf50;
+  color: #a5d6a7;
+}
+
+.mc-world-status.prototype {
+  background: #e65100;
+  border-color: #ff9800;
+  color: #ffe0b2;
+}
+
+.mc-world-subline {
+  font-size: 0.95rem;
+  color: #aaaaaa;
+  text-shadow: var(--mc-text-shadow);
+}
+
+.mc-world-desc {
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.mc-world-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mc-world-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: #333333;
+  border: 1px solid #777777;
+  color: #55ffff;
+}
+
+.mc-world-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   MULTIPLAYER SCREEN (SERVER BROWSER & ABOUT)
+   ========================================================================== */
+
+.mc-server-card {
+  width: 100%;
+  max-width: 820px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #555555;
+  padding: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+}
+
+.mc-server-icon {
+  width: 64px;
+  height: 64px;
+  background: #2e7d32;
+  border: 2px solid #81c784;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000;
+  flex-shrink: 0;
+}
+
+.mc-server-info {
+  flex: 1;
+}
+
+.mc-server-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.mc-server-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: var(--mc-text-shadow);
+}
+
+.mc-server-ping {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #55ff55;
+}
+
+.mc-ping-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 14px;
+}
+.mc-ping-bar {
+  width: 3px;
+  background: #55ff55;
+}
+.mc-ping-bar:nth-child(1) { height: 4px; }
+.mc-ping-bar:nth-child(2) { height: 6px; }
+.mc-ping-bar:nth-child(3) { height: 9px; }
+.mc-ping-bar:nth-child(4) { height: 11px; }
+.mc-ping-bar:nth-child(5) { height: 14px; }
+
+.mc-motd-1 {
+  font-size: 1.05rem;
+  color: #55ff55;
+  text-shadow: var(--mc-text-shadow);
+  margin-bottom: 2px;
+}
+
+.mc-motd-2 {
+  font-size: 1rem;
+  color: #ffff55;
+  text-shadow: var(--mc-text-shadow);
+}
+
+/* About Lore Box */
+.mc-about-panel {
+  width: 100%;
+  max-width: 820px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #777777;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mc-about-story {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  text-shadow: var(--mc-text-shadow);
+}
+
+/* RPG Player Status Bar (Health, Hunger, Level) */
+.mc-player-hud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #444444;
+  padding: 12px 16px;
+  margin-top: 8px;
+  gap: 12px;
+}
+
+.mc-hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.mc-hud-label {
+  color: #aaaaaa;
+}
+
+.mc-hud-val {
+  color: #55ffff;
+}
+
+/* ==========================================================================
+   SKILLS & INVENTORY SCREEN
+   ========================================================================== */
+
+.mc-inventory-window {
+  width: 100%;
+  max-width: 840px;
+  background: #c6c6c6;
+  border: 3px solid #ffffff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  color: #373737;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mc-inv-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.mc-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  gap: 10px;
+}
+
+.mc-slot {
+  position: relative;
+  background: #8b8b8b;
+  border: 2px solid #373737;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 84px;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.05s ease;
+}
+
+.mc-slot:hover {
+  background: #a0a0d0;
+  outline: 2px solid #ffffff;
+}
+
+.mc-slot-icon {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffff55;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.mc-slot-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.2;
+}
+
+.mc-slot-count {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #ffff55;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Authentic Minecraft Tooltip */
+.mc-tooltip-box {
+  background: #120016;
+  border: 2px solid #28004d;
+  box-shadow: inset 0 0 0 2px #500099;
+  padding: 12px 14px;
+  color: #ffffff;
+  border-radius: 4px;
+  margin-top: 14px;
+  animation: mcScreenFadeIn 0.15s ease-out;
+}
+
+.mc-tooltip-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #55ffff;
+  text-shadow: 2px 2px 0 #002233;
+  margin-bottom: 4px;
+}
+
+.mc-tooltip-rarity {
+  font-size: 0.85rem;
+  color: #ffaa00;
+  margin-bottom: 8px;
+}
+
+.mc-tooltip-desc {
+  font-size: 1.05rem;
+  color: #aaaaaa;
+  line-height: 1.4;
+}
+
+.mc-tooltip-stat {
+  font-size: 0.95rem;
+  color: #55ff55;
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   CONTACT / DIRECT CONNECT SCREEN
+   ========================================================================== */
+
+.mc-contact-box {
+  width: 100%;
+  max-width: 680px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #777777;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mc-chat-history {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #444444;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.05rem;
+}
+
+.mc-chat-msg {
+  text-shadow: var(--mc-text-shadow);
+}
+.mc-chat-msg.server { color: #ffff55; }
+.mc-chat-msg.kingshuk { color: #55ff55; }
+.mc-chat-msg.info { color: #55ffff; }
+
+.mc-email-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #555555;
+  padding: 14px;
+}
+
+.mc-email-label {
+  font-size: 0.95rem;
+  color: #ffaa00;
+  font-weight: 700;
+}
+
+.mc-email-value-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mc-email-value {
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: var(--mc-text-shadow);
+  word-break: break-all;
+}
+
+.mc-socials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* ==========================================================================
+   OPTIONS SCREEN
+   ========================================================================== */
+
+.mc-options-grid {
+  width: 100%;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.mc-options-full {
+  grid-column: span 2;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & SMALL SCREENS)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .mc-screen-content {
+    padding: 16px 12px;
+  }
+  
+  .mc-world-card {
+    flex-direction: column;
+  }
+  
+  .mc-world-thumbnail {
+    width: 100%;
+    height: 160px;
+  }
+  
+  .mc-server-card {
+    flex-direction: column;
+  }
+  
+  .mc-options-grid {
+    grid-template-columns: 1fr;
+  }
+  .mc-options-full {
+    grid-column: span 1;
+  }
+  
+  .mc-socials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mc-menu-list {
+    max-width: 320px;
+  }
+  
+  .mc-screen-footer {
+    height: auto;
+    padding: 12px 10px;
+    flex-wrap: wrap;
+  }
+  
+  .mc-button.btn-wide, .mc-button.btn-half {
+    max-width: 100%;
+  }
+  
+  .mc-title-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+}
