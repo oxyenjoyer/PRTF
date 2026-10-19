@@ -342,17 +342,19 @@ export default function App() {
         <main className="mc-title-screen">
           {/* Logo with Bouncing Yellow Splash */}
           <header className="mc-logo-wrapper">
-            <h1 className="mc-logo-title">KINGSHUK</h1>
+            <div className="mc-logo-title-row">
+              <h1 className="mc-logo-title">PORTFOLIO</h1>
+              <span
+                className="mc-splash-text"
+                onClick={handleSplashClick}
+                title="Click for next splash!"
+                role="button"
+                tabIndex={0}
+              >
+                {SPLASHES[splashIndex]}
+              </span>
+            </div>
             <p className="mc-logo-subtitle">GAME DEVELOPER & DESIGNER</p>
-            <span
-              className="mc-splash-text"
-              onClick={handleSplashClick}
-              title="Click for next splash!"
-              role="button"
-              tabIndex={0}
-            >
-              {SPLASHES[splashIndex]}
-            </span>
           </header>
 
           {/* Main Menu Buttons */}
@@ -368,7 +370,7 @@ export default function App() {
             <button
               className="mc-button btn-wide"
               onClick={() => handleNavigate('multiplayer')}
-              aria-label="Multiplayer - About Kingshuk and Server Info"
+              aria-label="Multiplayer - About the Developer"
             >
               Multiplayer (About Me & Bio)
             </button>
@@ -420,9 +422,9 @@ export default function App() {
 
           {/* Title Screen Footer */}
           <footer className="mc-title-footer">
-            <span>Minecraft Beta 1.8.1 (Kingshuk Edition)</span>
+            <span>Release Build v1.2.0</span>
             <span>
-              Copyright Mojang AB /{' '}
+              Copyright © 2026 /{' '}
               <a href="https://github.com/oxyenjoyer" target="_blank" rel="noreferrer">
                 Kingshuk Sarkar
               </a>{' '}
@@ -542,15 +544,15 @@ export default function App() {
       {screen === 'multiplayer' && (
         <section className="mc-dirt-screen" aria-label="Multiplayer Server Browser">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Play Multiplayer (About Kingshuk)</h2>
+            <h2 className="mc-screen-title">Play Multiplayer</h2>
           </header>
 
           <div className="mc-screen-content">
             <div className="mc-server-card">
-              <div className="mc-server-icon">K</div>
+              <div className="mc-server-icon">DEV</div>
               <div className="mc-server-info">
                 <div className="mc-server-title-row">
-                  <h3 className="mc-server-name">Kingshuk's Creative Realm [24/7 Dedicated Server]</h3>
+                  <h3 className="mc-server-name">Creative Dev Realm [Dedicated Server]</h3>
                   <div className="mc-server-ping">
                     <span>1/1 Online</span>
                     <div className="mc-ping-bars" title="Ping: 12ms (5 Bars)">
@@ -726,8 +728,8 @@ export default function App() {
           <div className="mc-screen-content">
             <div className="mc-contact-box">
               <div className="mc-chat-history">
-                <p className="mc-chat-msg server">&lt;Server&gt; Connected to Kingshuk's direct comms channel.</p>
-                <p className="mc-chat-msg kingshuk">&lt;Kingshuk&gt; Hey! Looking for a game developer or want to collaborate?</p>
+                <p className="mc-chat-msg server">&lt;Server&gt; Direct connection established.</p>
+                <p className="mc-chat-msg dev">&lt;Developer&gt; Hey! Looking for a game developer or want to collaborate?</p>
                 <p className="mc-chat-msg info">&lt;Server&gt; Click an email address below to copy it instantly:</p>
               </div>
 
@@ -867,7 +869,7 @@ export default function App() {
                   download="Kingshuk-Sarkar-Resume.pdf"
                   onClick={handleResumeDownload}
                 >
-                  Download Resume (Kingshuk-Sarkar-Resume.pdf)
+                  Download Resume (PDF)
                 </a>
               </div>
             </div>

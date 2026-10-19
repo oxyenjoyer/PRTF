@@ -227,48 +227,51 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 42px;
-  padding: 6px 16px;
+  min-height: 40px;
+  padding: 0 16px;
   font-family: var(--mc-font);
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--mc-btn-text);
-  text-shadow: var(--mc-text-shadow);
+  color: #e0e0e0;
+  text-shadow: 2px 2px 0px #222222;
   text-align: center;
-  background: #6c6c6c;
-  border: 2px solid #000000;
   cursor: pointer;
   outline: none;
   text-decoration: none;
-  box-shadow: 
-    inset 2px 2px 0px rgba(255, 255, 255, 0.35),
-    inset -2px -2px 0px rgba(0, 0, 0, 0.6);
-  transition: background-color 0.08s ease, color 0.08s ease;
   user-select: none;
   image-rendering: pixelated;
+
+  /* Authentic Minecraft GUI 9-slice button border & stone dithering */
+  border-style: solid;
+  border-width: 4px;
+  border-image-source: url('./btn_normal.png');
+  border-image-slice: 2 2 3 2 fill;
+  border-image-width: 4px;
+  border-image-repeat: repeat;
+  background: transparent;
+  box-shadow: none;
+  transition: color 0.05s ease;
 }
 
 .mc-button:hover:not(:disabled) {
-  background: var(--mc-btn-hover);
-  color: var(--mc-btn-hover-text);
-  text-shadow: var(--mc-yellow-shadow);
+  border-image-source: url('./btn_hover.png');
+  color: #ffffa0;
+  text-shadow: 2px 2px 0px #3f3f00;
 }
 
 .mc-button:active:not(:disabled) {
-  background: #505050;
-  box-shadow: 
-    inset -2px -2px 0px rgba(255, 255, 255, 0.25),
-    inset 2px 2px 0px rgba(0, 0, 0, 0.8);
+  border-image-source: url('./btn_disabled.png');
+  color: #a0a0a0;
+  text-shadow: 2px 2px 0px #222222;
   transform: translateY(1px);
 }
 
 .mc-button:disabled {
-  background: #3a3a3a;
-  color: #777777;
+  border-image-source: url('./btn_disabled.png');
+  color: #7e7e7e;
+  text-shadow: 2px 2px 0px #222222;
   cursor: not-allowed;
-  box-shadow: 
-    inset 2px 2px 0px rgba(255, 255, 255, 0.1),
-    inset -2px -2px 0px rgba(0, 0, 0, 0.4);
+  opacity: 0.8;
 }
 
 .mc-button.btn-wide {
@@ -282,18 +285,18 @@ html, body, #root {
 }
 
 .mc-button.btn-square {
-  width: 42px;
-  height: 42px;
-  min-height: 42px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
   padding: 0;
 }
 
 .mc-button.btn-green {
-  background: #2e7d32;
+  filter: hue-rotate(85deg) brightness(1.1);
 }
 .mc-button.btn-green:hover:not(:disabled) {
-  background: #388e3c;
-  color: #ffffa0;
+  filter: hue-rotate(85deg) brightness(1.3);
+  color: #ffffff;
 }
 
 /* ==========================================================================
@@ -318,54 +321,65 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: clamp(20px, 6vh, 60px);
+  margin-top: clamp(16px, 5vh, 48px);
+  padding: 0 16px;
+}
+
+.mc-logo-title-row {
+  position: relative;
+  display: inline-block;
+  text-align: center;
 }
 
 .mc-logo-title {
   font-family: var(--mc-font-pixel);
-  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: #d6d6d6;
+  color: #c4c4c4;
   text-shadow: 
-    0px 2px 0px #aaaaaa,
-    0px 4px 0px #888888,
-    0px 6px 0px #555555,
-    0px 8px 0px #222222,
+    0px 2px 0px #9e9e9e,
+    0px 4px 0px #757575,
+    0px 6px 0px #4a4a4a,
+    0px 8px 0px #202020,
     3px 8px 0px #111111,
     -3px 8px 0px #111111,
-    0px 10px 10px rgba(0, 0, 0, 0.85);
+    0px 10px 12px rgba(0, 0, 0, 0.85);
   text-align: center;
-  line-height: 1.1;
-  transform: scaleY(1.08);
+  line-height: 1;
+  margin: 0;
+  transform: scaleY(1.06);
 }
 
 .mc-logo-subtitle {
   font-family: var(--mc-font);
-  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   color: #ffaa00;
   text-shadow: 2px 2px 0px #3f2200;
-  margin-top: 4px;
+  margin-top: 8px;
+  text-align: center;
 }
 
 /* Bouncing Yellow Splash Text */
 .mc-splash-text {
   position: absolute;
-  right: -20px;
-  bottom: -22px;
+  right: -24px;
+  bottom: -10px;
   font-family: var(--mc-font);
-  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-size: clamp(0.9rem, 1.6vw, 1.25rem);
   font-weight: 700;
-  color: #ffff00;
-  text-shadow: 2px 2px 0px #3f3f00;
+  color: #ffff55;
+  text-shadow: 2px 2px 0px #3f3f15;
   white-space: nowrap;
   cursor: pointer;
+  transform-origin: center center;
   transform: rotate(-20deg);
-  animation: mcSplashPulse 1.4s infinite alternate ease-in-out;
+  animation: mcSplashPulse 1.6s infinite alternate ease-in-out;
   z-index: 10;
+  user-select: none;
   transition: color 0.15s ease;
 }
 
@@ -375,8 +389,16 @@ html, body, #root {
 }
 
 @keyframes mcSplashPulse {
-  0% { transform: rotate(-20deg) scale(0.96); }
+  0% { transform: rotate(-20deg) scale(0.98); }
   100% { transform: rotate(-20deg) scale(1.08); }
+}
+
+@media (max-width: 640px) {
+  .mc-splash-text {
+    right: -8px;
+    bottom: -14px;
+    font-size: 0.88rem;
+  }
 }
 
 /* Menu Buttons Column */
@@ -880,7 +902,7 @@ html, body, #root {
   text-shadow: var(--mc-text-shadow);
 }
 .mc-chat-msg.server { color: #ffff55; }
-.mc-chat-msg.kingshuk { color: #55ff55; }
+.mc-chat-msg.dev { color: #55ff55; }
 .mc-chat-msg.info { color: #55ffff; }
 
 .mc-email-row {
