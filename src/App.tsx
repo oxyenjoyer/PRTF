@@ -385,41 +385,41 @@ export default function App() {
             <button
               className="mc-button btn-wide"
               onClick={() => handleNavigate('singleplayer')}
-              aria-label="Singleplayer - View Games and Projects"
+              aria-label="Featured Games"
             >
-              Singleplayer (Games & Projects)
+              Featured Games
             </button>
 
             <button
               className="mc-button btn-wide"
               onClick={() => handleNavigate('multiplayer')}
-              aria-label="Multiplayer - About the Developer"
+              aria-label="About the Dev"
             >
-              Multiplayer (About Me & Bio)
+              About the Dev
             </button>
 
             <button
               className="mc-button btn-wide"
               onClick={() => handleNavigate('skills')}
-              aria-label="Advancements and Skills Inventory"
+              aria-label="Skill Inventory"
             >
-              Character Inventory (Skills)
+              Skill Inventory
             </button>
 
             <div className="mc-menu-row">
               <button
                 className="mc-button btn-half"
                 onClick={() => handleNavigate('options')}
-                aria-label="Options and Settings"
+                aria-label="Options"
               >
-                Options...
+                Options
               </button>
               <button
                 className="mc-button btn-half"
                 onClick={() => handleNavigate('contact')}
-                aria-label="Direct Connect and Contact"
+                aria-label="Direct Connect"
               >
-                Direct Connect...
+                Direct Connect
               </button>
             </div>
 
@@ -457,7 +457,7 @@ export default function App() {
       {screen === 'singleplayer' && (
         <section className="mc-dirt-screen" aria-label="Select World Projects">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Select World (Games & Projects)</h2>
+            <h2 className="mc-screen-title">Featured Games</h2>
           </header>
 
           <div className="mc-screen-content">
@@ -538,11 +538,11 @@ export default function App() {
                   triggerAdvancement('World Loaded', `Joined ${projects[selectedWorldIndex].title}!`, '*')
                 }}
               >
-                Play Selected World ↗
+                Play Selected World
               </a>
             ) : (
               <button className="mc-button btn-half" disabled>
-                Selected: Prototype (WIP)
+                Play Selected World
               </button>
             )}
             <button
@@ -561,7 +561,7 @@ export default function App() {
       {screen === 'multiplayer' && (
         <section className="mc-dirt-screen" aria-label="Multiplayer Server Browser">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Play Multiplayer</h2>
+            <h2 className="mc-screen-title">About the Dev</h2>
           </header>
 
           <div className="mc-screen-content">
@@ -635,7 +635,7 @@ export default function App() {
               className="mc-button btn-half btn-green"
               onClick={() => handleNavigate('contact')}
             >
-              Direct Connect...
+              Direct Connect
             </button>
             <button
               className="mc-button btn-half"
@@ -653,7 +653,7 @@ export default function App() {
       {screen === 'skills' && (
         <section className="mc-dirt-screen" aria-label="Skills & Inventory">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Character Inventory & Equipment</h2>
+            <h2 className="mc-screen-title">Skill Inventory</h2>
           </header>
 
           <div className="mc-screen-content">
@@ -664,7 +664,7 @@ export default function App() {
                   {TECHNICAL_SKILLS.map(skill => (
                     <div
                       key={skill.id}
-                      className="mc-slot"
+                      className={`mc-slot ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
                       onClick={() => {
                         playClickSound()
                         setHoveredSkill(skill)
@@ -685,7 +685,7 @@ export default function App() {
                   {GENERAL_SKILLS.map(skill => (
                     <div
                       key={skill.id}
-                      className="mc-slot"
+                      className={`mc-slot ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
                       onClick={() => {
                         playClickSound()
                         setHoveredSkill(skill)
@@ -721,7 +721,7 @@ export default function App() {
               download="Kingshuk-Sarkar-Resume.pdf"
               onClick={handleResumeDownload}
             >
-              Download Resume (PDF)
+              Download Resume
             </a>
             <button
               className="mc-button btn-half"
@@ -840,7 +840,7 @@ export default function App() {
       {screen === 'options' && (
         <section className="mc-dirt-screen" aria-label="Game Options">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Options...</h2>
+            <h2 className="mc-screen-title">Options</h2>
           </header>
 
           <div className="mc-screen-content">
@@ -926,16 +926,6 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="mc-options-full">
-                <a
-                  className="mc-button btn-wide btn-green"
-                  href={resumeUrl}
-                  download="Kingshuk-Sarkar-Resume.pdf"
-                  onClick={handleResumeDownload}
-                >
-                  Download Resume (PDF)
-                </a>
-              </div>
             </div>
           </div>
 

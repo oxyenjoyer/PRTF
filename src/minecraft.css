@@ -355,10 +355,10 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 16px;
   font-family: var(--mc-font);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #e0e0e0;
   -webkit-text-stroke: 1.5px #000000;
@@ -412,12 +412,32 @@ html, body, #root {
 .mc-button.btn-wide {
   width: 100%;
   max-width: 400px;
+  min-height: 48px;
+  font-size: 1.35rem;
 }
 
 .mc-button.btn-half {
   flex: 1;
   max-width: 200px;
   min-width: 140px;
+  min-height: 44px;
+  font-size: 1.15rem;
+}
+
+.mc-screen-footer .mc-button.btn-half {
+  flex: 0 0 230px;
+  width: 230px;
+  max-width: 230px;
+  min-width: 230px;
+  height: 46px;
+  min-height: 46px;
+  font-size: 0.94rem;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  letter-spacing: 0px;
+  padding: 0 8px;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .mc-button.btn-square {
@@ -658,6 +678,18 @@ html, body, #root {
   width: 100%;
   max-width: 400px;
   margin: auto 0;
+}
+
+.mc-menu-list .mc-button.btn-wide {
+  font-size: 1.35rem;
+  min-height: 48px;
+  letter-spacing: 0.8px;
+}
+
+.mc-menu-list .mc-button.btn-half {
+  font-size: 1.15rem;
+  min-height: 46px;
+  letter-spacing: 0.5px;
 }
 
 .mc-menu-row {
@@ -1045,7 +1077,7 @@ html, body, #root {
 
 .mc-inventory-window {
   width: 100%;
-  max-width: 820px;
+  max-width: 860px;
   background: #c6c6c6;
   border: 3px solid #ffffff;
   border-right-color: #555555;
@@ -1070,7 +1102,7 @@ html, body, #root {
 
 .mc-slots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
 }
 
@@ -1080,55 +1112,76 @@ html, body, #root {
   border: 2px solid #373737;
   border-right-color: #ffffff;
   border-bottom-color: #ffffff;
-  padding: 8px 6px;
+  padding: 8px 4px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
-  min-height: 84px;
+  min-height: 102px;
+  box-sizing: border-box;
   cursor: pointer;
   transition: transform 0.05s ease, background 0.05s ease;
+  overflow: hidden;
+  user-select: none;
 }
 
-.mc-slot:hover {
+.mc-slot:hover,
+.mc-slot.is-selected {
   background: #a0a0d0;
   outline: 2px solid #ffffff;
+  outline-offset: -2px;
 }
 
 .mc-slot-icon {
-  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.94rem;
   font-weight: 700;
   color: #ffff55;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.45);
   padding: 2px 6px;
   border-radius: 2px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   letter-spacing: 0.5px;
+  max-width: 90%;
+  box-sizing: border-box;
+  line-height: 1.1;
 }
 
 .mc-slot-name {
   font-size: 0.88rem;
   font-weight: 700;
   color: #ffffff;
-  -webkit-text-stroke: 1px #000000;
-  text-stroke: 1px #000000;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
   paint-order: stroke fill;
   text-shadow: 1px 1px 0px #000000;
-  line-height: 1.2;
+  line-height: 1.18;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  box-sizing: border-box;
+  padding: 0 2px;
 }
 
 .mc-slot-count {
   position: absolute;
   right: 4px;
   bottom: 2px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #ffff55;
-  -webkit-text-stroke: 1.5px #000000;
-  text-stroke: 1.5px #000000;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
   paint-order: stroke fill;
   text-shadow: 1px 1px 0px #000000;
+  line-height: 1;
+  pointer-events: none;
 }
 
 /* Authentic Minecraft Tooltip */
@@ -1318,10 +1371,58 @@ html, body, #root {
     height: auto;
     padding: 12px 10px;
     flex-wrap: wrap;
+    gap: 8px;
   }
   
   .mc-button.btn-wide, .mc-button.btn-half {
     max-width: 100%;
+  }
+
+  .mc-screen-footer .mc-button.btn-half {
+    flex: 1 1 calc(50% - 6px);
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    height: 44px;
+    min-height: 44px;
+    font-size: 0.84rem;
+    -webkit-text-stroke: 0.8px #000000;
+    text-stroke: 0.8px #000000;
+    letter-spacing: 0px;
+    padding: 0 4px;
+  }
+
+  .mc-menu-list .mc-button.btn-wide {
+    font-size: 1.15rem;
+    min-height: 44px;
+  }
+
+  .mc-menu-list .mc-button.btn-half {
+    font-size: 1.02rem;
+    min-height: 42px;
+  }
+
+  .mc-slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .mc-slot {
+    min-height: 94px;
+    padding: 6px 3px 18px;
+  }
+  
+  .mc-slot-icon {
+    font-size: 0.88rem;
+  }
+
+  .mc-slot-name {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+
+  .mc-slot-count {
+    font-size: 0.85rem;
   }
   
   .mc-title-footer {
