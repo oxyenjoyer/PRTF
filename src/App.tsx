@@ -184,6 +184,7 @@ export default function App() {
       role: 'Solo Developer',
       image: `${baseUrl}projects/Mannekill.png`,
       url: 'https://therealoxygenenjoyer.itch.io/mannekill',
+      githubUrl: 'https://github.com/oxyenjoyer/FPS_Wave_Based',
       desc: 'Its a wave based 3D FPS game made in Godot. The waves get harder and harder as time passes by. It only ends when your character dies.',
       tags: ['Godot', 'GDScript', 'FPS', 'Web-based'],
       date: 'Latest Release',
@@ -195,6 +196,7 @@ export default function App() {
       role: 'Solo Developer',
       image: null,
       url: null,
+      githubUrl: null,
       desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       tags: ['Unreal', 'Blueprints', 'Systems'],
       date: 'Prototype',
@@ -206,6 +208,7 @@ export default function App() {
       role: 'Solo Developer',
       image: null,
       url: null,
+      githubUrl: null,
       desc: 'Lorem ipsum but I like to move it move it',
       tags: ['Godot', 'GDScript', 'Tools'],
       date: 'Prototype',
@@ -511,7 +514,7 @@ export default function App() {
                             triggerAdvancement('World Explored', `Launched ${proj.title}!`, '*')
                           }}
                         >
-                          Play / View Project ↗
+                          Play Game
                         </a>
                       ) : (
                         <button className="mc-button" disabled>
@@ -526,22 +529,22 @@ export default function App() {
           </div>
 
           <footer className="mc-screen-footer">
-            {projects[selectedWorldIndex].url ? (
+            {projects[selectedWorldIndex].githubUrl ? (
               <a
                 className="mc-button btn-half btn-green"
-                href={projects[selectedWorldIndex].url!}
+                href={projects[selectedWorldIndex].githubUrl!}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => {
                   playClickSound()
-                  triggerAdvancement('World Loaded', `Joined ${projects[selectedWorldIndex].title}!`, '*')
+                  triggerAdvancement('Source Inspected', `Opened GitHub repo for ${projects[selectedWorldIndex].title}!`, '*')
                 }}
               >
-                Play Selected World
+                GitHub Repository
               </a>
             ) : (
               <button className="mc-button btn-half" disabled>
-                Play Selected World
+                GitHub Repository
               </button>
             )}
             <button
@@ -607,18 +610,6 @@ export default function App() {
               </p>
 
               <div className="mc-player-hud">
-                <div className="mc-hud-item">
-                  <span className="mc-hud-label">HEALTH:</span>
-                  <span className="mc-hud-val">20 / 20</span>
-                </div>
-                <div className="mc-hud-item">
-                  <span className="mc-hud-label">HUNGER:</span>
-                  <span className="mc-hud-val">20 / 20 (Max)</span>
-                </div>
-                <div className="mc-hud-item">
-                  <span className="mc-hud-label">LEVEL:</span>
-                  <span className="mc-hud-val">23 Game Dev</span>
-                </div>
                 <div className="mc-hud-item">
                   <span className="mc-hud-label">STATUS:</span>
                   <span className="mc-hud-val" style={{ color: '#55ff55' }}>
@@ -768,7 +759,10 @@ export default function App() {
                     className="mc-button btn-green"
                     onClick={() => copyToClipboard(businessEmail, 'Business Email')}
                   >
-                    {copiedStatus === 'Business Email' ? 'Copied!' : 'Copy Email'}
+                    <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                    <span>{copiedStatus === 'Business Email' ? 'Copied!' : 'Copy Email'}</span>
                   </button>
                 </div>
               </div>
@@ -782,7 +776,10 @@ export default function App() {
                     className="mc-button btn-green"
                     onClick={() => copyToClipboard(personalEmail, 'Personal Email')}
                   >
-                    {copiedStatus === 'Personal Email' ? 'Copied!' : 'Copy Email'}
+                    <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                    <span>{copiedStatus === 'Personal Email' ? 'Copied!' : 'Copy Email'}</span>
                   </button>
                 </div>
               </div>
@@ -796,7 +793,10 @@ export default function App() {
                   rel="noreferrer"
                   onClick={playClickSound}
                 >
-                  LinkedIn ↗
+                  <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                  </svg>
+                  <span>LinkedIn ↗</span>
                 </a>
 
                 <a
@@ -806,7 +806,10 @@ export default function App() {
                   rel="noreferrer"
                   onClick={playClickSound}
                 >
-                  itch.io Profile ↗
+                  <svg className="mc-btn-icon" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                    <path d="M 16 5 C 12.748 5 8.3121094 5.0508594 7.4121094 5.1308594 C 6.4021094 5.7368594 4.4028125 8.0309531 4.3828125 8.6269531 L 4.3828125 9.6269531 C 4.3828125 10.889953 5.5657188 12 6.6367188 12 C 7.9197187 12 8.9902344 10.929969 8.9902344 9.6679688 C 8.9902344 10.929969 10.0305 12 11.3125 12 C 12.6055 12 13.605469 10.930969 13.605469 9.6679688 C 13.605469 10.929969 14.695281 12 15.988281 12 L 16.009766 12 C 17.302766 12 18.392578 10.930969 18.392578 9.6679688 C 18.392578 10.929969 19.402547 12 20.685547 12 C 21.968547 12 23.009766 10.930969 23.009766 9.6679688 C 23.009766 10.929969 24.080281 12 25.363281 12 C 26.434281 12 27.615234 10.889953 27.615234 9.6269531 L 27.615234 8.6269531 C 27.595234 8.0309531 25.595938 5.7368594 24.585938 5.1308594 C 21.443938 5.0198594 19.252 5 16 5 z M 13.550781 11.742188 C 12.497781 13.552188 9.8523125 13.573906 8.8203125 11.753906 C 8.1903125 12.845906 6.7642969 13.267547 6.1542969 13.060547 C 5.9762969 14.959547 5.8534844 24.70875 7.1464844 26.34375 C 10.943484 27.22875 21.164516 27.20975 24.853516 26.34375 C 26.348516 24.81975 26.013703 14.821547 25.845703 13.060547 C 25.235703 13.267547 23.809453 12.845906 23.189453 11.753906 C 22.146453 13.573906 19.501219 13.552188 18.449219 11.742188 C 18.124219 12.332187 17.367 13.109375 16 13.109375 C 14.997 13.148375 14.051781 12.607187 13.550781 11.742188 z M 11.419922 14 C 12.219922 14 12.950078 14.000469 13.830078 14.980469 C 15.280078 14.830469 16.719922 14.830469 18.169922 14.980469 C 19.059922 14.010469 19.780078 14.009766 20.580078 14.009766 C 23.160078 14.009766 23.780937 17.819609 24.710938 21.099609 C 25.550938 24.149609 24.429062 24.230469 23.039062 24.230469 C 20.969062 24.150469 19.820313 22.650625 19.820312 21.140625 C 17.890313 21.460625 14.809688 21.580625 12.179688 21.140625 C 12.179688 22.650625 11.030938 24.150469 8.9609375 24.230469 C 7.5709375 24.230469 6.4490625 24.149609 7.2890625 21.099609 C 8.2190625 17.799609 8.8399219 14.009766 11.419922 14.009766 L 11.419922 14 z M 16 16.876953 C 16 16.876953 14.306 18.439375 14 18.984375 L 15.107422 18.943359 L 15.107422 19.910156 C 15.107422 19.968156 15.926 19.917969 16 19.917969 C 16.447 19.934969 16.892578 19.951156 16.892578 19.910156 L 16.892578 18.943359 L 18 18.984375 C 17.694 18.438375 16 16.876953 16 16.876953 z" />
+                  </svg>
+                  <span>itch.io Profile ↗</span>
                 </a>
 
                 <a
@@ -816,7 +819,10 @@ export default function App() {
                   rel="noreferrer"
                   onClick={playClickSound}
                 >
-                  GitHub ↗
+                  <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                  <span>GitHub ↗</span>
                 </a>
 
                 <a
@@ -826,7 +832,10 @@ export default function App() {
                   rel="noreferrer"
                   onClick={playClickSound}
                 >
-                  Discord Profile ↗
+                  <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                  </svg>
+                  <span>Discord Profile ↗</span>
                 </a>
               </div>
             </div>
