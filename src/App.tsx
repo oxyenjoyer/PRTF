@@ -23,18 +23,17 @@ interface SkillItem {
 }
 
 const SPLASHES = [
-  'Now with Godot 4!',
-  'Free on itch.io!',
+  'Now with Godot!!',
+  'Find on itch.io!',
   'Look ma, no bugs!',
-  'Level 99 Game Dev!',
+  'Pro Gamer and Dev B)',
   'C++ & C# certified!',
-  'May contain Creepers!',
+  'May contain endermites',
   'Open to Work!',
   '100% Organic Code!',
   'Press F to Respect!',
-  "Don't dig straight down!",
-  'Also try Terraria!',
-  'Crafting worlds!',
+  "Diggy diggy",
+  'Crafting games',
   'Click for more!',
 ]
 
@@ -74,7 +73,7 @@ const TECHNICAL_SKILLS: SkillItem[] = [
     name: 'C# & C++',
     icon: 'C#',
     count: 32,
-    tier: 'Legendary',
+    tier: 'Uncommon',
     type: 'Systems Programming',
     lore: 'Strong foundational memory management, algorithmic problem solving, and object-oriented architectures.',
     stat: '+90 Performance Optimization & Math',
@@ -137,7 +136,7 @@ const GENERAL_SKILLS: SkillItem[] = [
     name: 'Communication',
     icon: 'COM',
     count: 64,
-    tier: 'Epic',
+    tier: 'Common',
     type: 'Collaboration',
     lore: 'Articulate cross-disciplinary dialogue between artists, coders, and sound designers.',
     stat: '+95 Clarity & Fast Turnaround',
@@ -427,7 +426,7 @@ export default function App() {
               <a
                 className="mc-button btn-half btn-green"
                 href={resumeUrl}
-                download="Kingshuk-Sarkar-Resume.pdf"
+                download="Chhatrapati_Kingshuk_Sarkar_Resume.pdf"
                 onClick={handleResumeDownload}
                 title="Download PDF Resume"
               >
@@ -664,13 +663,18 @@ export default function App() {
                   {TECHNICAL_SKILLS.map(skill => (
                     <div
                       key={skill.id}
-                      className={`mc-slot ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
+                      className={`mc-slot tier-${skill.tier.toLowerCase()} ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
                       onClick={() => {
                         playClickSound()
                         setHoveredSkill(skill)
                       }}
                       onMouseEnter={() => setHoveredSkill(skill)}
                     >
+                      {['Legendary', 'Epic', 'Rare'].includes(skill.tier) && (
+                        <svg className={`mc-slot-tier-svg tier-${skill.tier.toLowerCase()}`} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                          <rect x="2.5" y="2.5" width="95" height="95" vectorEffect="non-scaling-stroke" />
+                        </svg>
+                      )}
                       <span className="mc-slot-icon">{skill.icon}</span>
                       <span className="mc-slot-name">{skill.name}</span>
                       <span className="mc-slot-count">{skill.count}</span>
@@ -685,13 +689,18 @@ export default function App() {
                   {GENERAL_SKILLS.map(skill => (
                     <div
                       key={skill.id}
-                      className={`mc-slot ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
+                      className={`mc-slot tier-${skill.tier.toLowerCase()} ${hoveredSkill?.id === skill.id ? 'is-selected' : ''}`}
                       onClick={() => {
                         playClickSound()
                         setHoveredSkill(skill)
                       }}
                       onMouseEnter={() => setHoveredSkill(skill)}
                     >
+                      {['Legendary', 'Epic', 'Rare'].includes(skill.tier) && (
+                        <svg className={`mc-slot-tier-svg tier-${skill.tier.toLowerCase()}`} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                          <rect x="2.5" y="2.5" width="95" height="95" vectorEffect="non-scaling-stroke" />
+                        </svg>
+                      )}
                       <span className="mc-slot-icon">{skill.icon}</span>
                       <span className="mc-slot-name">{skill.name}</span>
                       <span className="mc-slot-count">{skill.count}</span>
@@ -703,8 +712,8 @@ export default function App() {
               {/* Minecraft Item Tooltip Display */}
               {hoveredSkill && (
                 <div className="mc-tooltip-box" role="region" aria-label="Item Tooltip">
-                  <div className="mc-tooltip-title">§b{hoveredSkill.name}</div>
-                  <div className="mc-tooltip-rarity">
+                  <div className={`mc-tooltip-title tier-${hoveredSkill.tier.toLowerCase()}`}>{hoveredSkill.name}</div>
+                  <div className={`mc-tooltip-rarity tier-${hoveredSkill.tier.toLowerCase()}`}>
                     Tier: {hoveredSkill.tier} · {hoveredSkill.type}
                   </div>
                   <p className="mc-tooltip-desc">"{hoveredSkill.lore}"</p>
@@ -718,7 +727,7 @@ export default function App() {
             <a
               className="mc-button btn-half btn-green"
               href={resumeUrl}
-              download="Kingshuk-Sarkar-Resume.pdf"
+              download="Chhatrapati_Kingshuk_Sarkar_Resume.pdf"
               onClick={handleResumeDownload}
             >
               Download Resume
@@ -746,7 +755,7 @@ export default function App() {
             <div className="mc-contact-box">
               <div className="mc-chat-history">
                 <p className="mc-chat-msg server">&lt;Server&gt; Direct connection established.</p>
-                <p className="mc-chat-msg dev">&lt;Developer&gt; Hey! Looking for a game developer or want to collaborate?</p>
+                <p className="mc-chat-msg dev">&lt;Developer&gt; Heyo Looking for a game developer or want to collaborate?</p>
                 <p className="mc-chat-msg info">&lt;Server&gt; Click an email address below to copy it instantly:</p>
               </div>
 

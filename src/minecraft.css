@@ -1133,6 +1133,31 @@ html, body, #root {
   outline-offset: -2px;
 }
 
+/* Tier Slot Backgrounds & Custom Bevels */
+.mc-slot.tier-legendary {
+  background: #ffa808;
+  border-color: #b36e00 #ffd666 #ffd666 #b36e00;
+}
+
+.mc-slot.tier-legendary:hover,
+.mc-slot.tier-legendary.is-selected {
+  background: #ffb726;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+.mc-slot.tier-epic {
+  background: #841891;
+  border-color: #4a0b52 #d440ea #d440ea #4a0b52;
+}
+
+.mc-slot.tier-epic:hover,
+.mc-slot.tier-epic.is-selected {
+  background: #9923a8;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
 .mc-slot-icon {
   display: inline-flex;
   align-items: center;
@@ -1169,10 +1194,17 @@ html, body, #root {
   padding: 0 2px;
 }
 
+.mc-slot-icon,
+.mc-slot-name {
+  position: relative;
+  z-index: 2;
+}
+
 .mc-slot-count {
   position: absolute;
   right: 4px;
   bottom: 2px;
+  z-index: 2;
   font-size: 0.9rem;
   font-weight: 700;
   color: #ffff55;
@@ -1182,6 +1214,62 @@ html, body, #root {
   text-shadow: 1px 1px 0px #000000;
   line-height: 1;
   pointer-events: none;
+}
+
+.mc-slot.tier-legendary .mc-slot-name {
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+}
+
+.mc-slot.tier-legendary .mc-slot-count {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* Tier Inside Dashed Outlines */
+.mc-slot-tier-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mc-slot-tier-svg rect {
+  fill: none;
+  stroke-width: 3px;
+}
+
+/* Legendary: #fcc865 border on bright #ffa808 background (no glow) */
+.mc-slot-tier-svg.tier-legendary rect {
+  stroke: #fcc865;
+  stroke-dasharray: 24 5;
+  stroke-width: 3.5px;
+}
+
+/* Epic: Super bright electric neon magenta border (no glow) */
+.mc-slot-tier-svg.tier-epic rect {
+  stroke: #ff44ff;
+  stroke-dasharray: 6 4;
+  stroke-width: 3.5px;
+}
+
+/* Rare: Bright cyan with dashed outline (no glow) */
+.mc-slot-tier-svg.tier-rare rect {
+  stroke: #00ffff;
+  stroke-dasharray: 7 5;
+  stroke-width: 2.8px;
+}
+
+/* Thicken tier border on slot hover or selection (clean, no glow) */
+.mc-slot:hover .mc-slot-tier-svg rect,
+.mc-slot.is-selected .mc-slot-tier-svg rect {
+  stroke-width: 4px;
 }
 
 /* Authentic Minecraft Tooltip */
@@ -1198,12 +1286,28 @@ html, body, #root {
 .mc-tooltip-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #55ffff;
+  color: #ffffff;
   -webkit-text-stroke: 1.5px #000000;
   text-stroke: 1.5px #000000;
   paint-order: stroke fill;
-  text-shadow: 2px 2px 0px #002233;
+  text-shadow: 2px 2px 0px #000000;
   margin-bottom: 4px;
+}
+
+.mc-tooltip-title.tier-common {
+  color: #aaaaaa;
+}
+.mc-tooltip-title.tier-uncommon {
+  color: #55ff55;
+}
+.mc-tooltip-title.tier-rare {
+  color: #55ffff;
+}
+.mc-tooltip-title.tier-epic {
+  color: #ff55ff;
+}
+.mc-tooltip-title.tier-legendary {
+  color: #ffaa00;
 }
 
 .mc-tooltip-rarity {
@@ -1214,6 +1318,22 @@ html, body, #root {
   text-stroke: 1px #000000;
   paint-order: stroke fill;
   margin-bottom: 8px;
+}
+
+.mc-tooltip-rarity.tier-common {
+  color: #aaaaaa;
+}
+.mc-tooltip-rarity.tier-uncommon {
+  color: #55ff55;
+}
+.mc-tooltip-rarity.tier-rare {
+  color: #55ffff;
+}
+.mc-tooltip-rarity.tier-epic {
+  color: #ff55ff;
+}
+.mc-tooltip-rarity.tier-legendary {
+  color: #ffaa00;
 }
 
 .mc-tooltip-desc {
