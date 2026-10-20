@@ -21,19 +21,19 @@ interface SkillItem {
 }
 
 const SPLASHES = [
-  'Now with Godot 4 & GDScript!',
-  'ManneKill is free on itch.io!',
+  'Now with Godot 4!',
+  'Free on itch.io!',
   'Look ma, no bugs!',
-  'Level 99 Game Developer!',
+  'Level 99 Game Dev!',
   'C++ & C# certified!',
   'May contain Creepers!',
-  'Open to Work & Collaborations!',
-  '100% Pure Organic Code!',
-  'Press F to Pay Respects!',
+  'Open to Work!',
+  '100% Organic Code!',
+  'Press F to Respect!',
   "Don't dig straight down!",
   'Also try Terraria!',
-  'Crafting worlds with passion!',
-  'Click me for more wisdom!',
+  'Crafting worlds!',
+  'Click for more!',
 ]
 
 const TECHNICAL_SKILLS: SkillItem[] = [
@@ -343,7 +343,10 @@ export default function App() {
           {/* Logo with Bouncing Yellow Splash */}
           <header className="mc-logo-wrapper">
             <div className="mc-logo-title-row">
-              <h1 className="mc-logo-title">PORTFOLIO</h1>
+              <h1 className="mc-logo-title" data-text="PORTFOLIO">
+                <span className="mc-logo-shadow" aria-hidden="true">PORTFOLIO</span>
+                <span className="mc-logo-front">PORTFOLIO</span>
+              </h1>
               <span
                 className="mc-splash-text"
                 onClick={handleSplashClick}
@@ -512,7 +515,7 @@ export default function App() {
           <footer className="mc-screen-footer">
             {projects[selectedWorldIndex].url ? (
               <a
-                className="mc-button btn-wide btn-green"
+                className="mc-button btn-half btn-green"
                 href={projects[selectedWorldIndex].url!}
                 target="_blank"
                 rel="noreferrer"
@@ -524,7 +527,7 @@ export default function App() {
                 Play Selected World ↗
               </a>
             ) : (
-              <button className="mc-button btn-wide" disabled>
+              <button className="mc-button btn-half" disabled>
                 Selected: Prototype (WIP)
               </button>
             )}
@@ -699,7 +702,7 @@ export default function App() {
 
           <footer className="mc-screen-footer">
             <a
-              className="mc-button btn-wide btn-green"
+              className="mc-button btn-half btn-green"
               href={resumeUrl}
               download="Kingshuk-Sarkar-Resume.pdf"
               onClick={handleResumeDownload}
