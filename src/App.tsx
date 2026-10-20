@@ -156,7 +156,7 @@ const GENERAL_SKILLS: SkillItem[] = [
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('title')
-  const [splashIndex, setSplashIndex] = useState(0)
+  const [splashIndex, setSplashIndex] = useState(() => Math.floor(Math.random() * SPLASHES.length))
   const [soundOn, setSoundOn] = useState(true)
   const [particlesOn, setParticlesOn] = useState(true)
   const [quakePro, setQuakePro] = useState(false)
@@ -235,7 +235,13 @@ export default function App() {
 
   function handleSplashClick() {
     playClickSound()
-    setSplashIndex(prev => (prev + 1) % SPLASHES.length)
+    setSplashIndex(prev => {
+      let next: number
+      do {
+        next = Math.floor(Math.random() * SPLASHES.length)
+      } while (next === prev && SPLASHES.length > 1)
+      return next
+    })
   }
 
   function toggleSoundOption() {
@@ -357,9 +363,9 @@ export default function App() {
           {/* Logo with Bouncing Yellow Splash */}
           <header className="mc-logo-wrapper">
             <div className="mc-logo-title-row">
-              <h1 className="mc-logo-title" data-text="PORTFOLIO">
-                <span className="mc-logo-shadow" aria-hidden="true">PORTFOLIO</span>
-                <span className="mc-logo-front">PORTFOLIO</span>
+              <h1 className="mc-logo-title" data-text="KINGSHUK">
+                <span className="mc-logo-shadow" aria-hidden="true">KINGSHUK</span>
+                <span className="mc-logo-front">KINGSHUK</span>
               </h1>
               <span
                 className="mc-splash-text"
@@ -439,14 +445,8 @@ export default function App() {
 
           {/* Title Screen Footer */}
           <footer className="mc-title-footer">
-            <span>Release Build v1.2.0</span>
-            <span>
-              Copyright © 2026 /{' '}
-              <a href="https://github.com/oxyenjoyer" target="_blank" rel="noreferrer">
-                Kingshuk Sarkar
-              </a>{' '}
-              · Open to Work
-            </span>
+            <span>Alpha 1.0</span>
+            <span>Copyright © CKSO2</span>
           </footer>
         </main>
       )}

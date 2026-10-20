@@ -474,9 +474,9 @@ html, body, #root {
   position: relative;
   display: inline-block;
   font-family: var(--mc-font-logo);
-  font-size: clamp(3.2rem, 8vw, 5.8rem);
+  font-size: clamp(4rem, 10.5vw, 7.2rem);
   font-weight: 400;
-  letter-spacing: 5px;
+  letter-spacing: 6px;
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
@@ -604,19 +604,19 @@ html, body, #root {
   text-stroke: 1.5px #000000;
   paint-order: stroke fill;
   text-shadow: 2px 2px 0px #3f2200;
-  margin-top: 24px;
+  margin-top: 30px;
   text-align: center;
 }
 
 /* Bouncing Yellow Splash Text */
 .mc-splash-text {
   position: absolute;
-  right: -28px;
-  bottom: 0px;
+  right: -32px;
+  bottom: 4px;
   transform: rotate(-20deg);
   transform-origin: center center;
   font-family: var(--mc-font);
-  font-size: clamp(1rem, 1.7vw, 1.3rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.38rem);
   font-weight: 700;
   color: #ffff00;
   -webkit-text-stroke: 1.8px #000000;
