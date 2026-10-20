@@ -59,6 +59,12 @@
   --mc-text-aqua: #55ffff;
   --mc-text-red: #ff5555;
   --mc-text-purple: #aa00aa;
+
+  /* Modular Panorama & Vignette Tokens */
+  --mc-vignette-opacity: 0.22;
+  --mc-panorama-brightness: 1;
+  --mc-panorama-contrast: 1;
+  --mc-panorama-blur: 0px;
 }
 
 /* Base resets & pixel perfection */
@@ -114,6 +120,15 @@ html, body, #root {
   filter: contrast(1.05);
 }
 
+/* Modular Panorama Container */
+.mc-panorama-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* Ambient Panorama Background - High-resolution static Minecraft scene */
 .mc-bg-panorama {
   position: absolute;
@@ -121,18 +136,128 @@ html, body, #root {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  filter: brightness(var(--mc-panorama-brightness, 1))
+          contrast(var(--mc-panorama-contrast, 1))
+          blur(var(--mc-panorama-blur, 0px));
   z-index: 0;
-  transform: none;
+  transform: scale(1.01);
+  transition: filter 0.4s ease, opacity 0.3s ease;
+  will-change: transform, filter;
 }
 
-/* Dark Vignette Overlay */
+/* Optional Ambient Drift Animation */
+.mc-bg-panorama.panorama-drift {
+  width: 108%;
+  height: 108%;
+  inset: -4%;
+  animation: mcPanoramaDrift 50s ease-in-out infinite alternate;
+}
+
+@keyframes mcPanoramaDrift {
+  0% {
+    transform: scale(1.02) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.05) translate(-1.5%, -0.8%);
+  }
+  100% {
+    transform: scale(1.02) translate(1.2%, 0.8%);
+  }
+}
+
+/* Full-Screen Camera Vignette Overlay (Clear center, rich corner framing) */
 .mc-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity 0.25s ease;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.45) 75%,
+      rgba(0, 0, 0, 0.95) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+}
+
+/* Vignette Intensity Preset Modifiers */
+.vignette-off { --mc-vignette-opacity: 0; }
+.vignette-low { --mc-vignette-opacity: 0.28; }
+.vignette-medium { --mc-vignette-opacity: 0.55; }
+.vignette-high { --mc-vignette-opacity: 0.85; }
+
+/* Options Screen Live Preview Card */
+.mc-options-preview {
+  grid-column: span 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.mc-preview-box {
+  position: relative;
+  width: 100%;
+  height: 125px;
+  border: 2px solid #555555;
+  outline: 2px solid #000000;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.mc-preview-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.65) 100%),
-              linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.35));
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+.mc-preview-bg.panorama-drift {
+  width: 112%;
+  height: 112%;
+  inset: -6%;
+  animation: mcPanoramaDrift 40s ease-in-out infinite alternate;
+}
+
+.mc-vignette-mini {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  z-index: 1;
+  transition: opacity 0.2s ease;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+}
+
+.mc-preview-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffff55;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 3px 8px;
+  border: 1px solid #555555;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+  letter-spacing: 0.5px;
 }
 
 /* Particle Canvas */

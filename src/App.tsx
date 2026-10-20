@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { playClickSound, playAdvancementSound, isSoundEnabled, setSoundEnabled } from './sound'
+import { Panorama } from './components/Panorama'
+import { VignetteLevel, VIGNETTE_OPACITIES } from './panoramaConfig'
 
 type Screen = 'title' | 'singleplayer' | 'multiplayer' | 'skills' | 'options' | 'contact'
 
@@ -158,6 +160,8 @@ export default function App() {
   const [soundOn, setSoundOn] = useState(true)
   const [particlesOn, setParticlesOn] = useState(true)
   const [quakePro, setQuakePro] = useState(false)
+  const [vignetteLevel, setVignetteLevel] = useState<VignetteLevel>('low')
+  const [panoramaDrift, setPanoramaDrift] = useState(false)
   const [selectedWorldIndex, setSelectedWorldIndex] = useState(0)
   const [hoveredSkill, setHoveredSkill] = useState<SkillItem | null>(TECHNICAL_SKILLS[0])
   const [advancement, setAdvancement] = useState<Advancement | null>(null)
@@ -314,15 +318,25 @@ export default function App() {
       className={`mc-app ${quakePro ? 'quake-pro' : ''}`}
       style={{ '--mc-dirt-url': `url(${dirtUrl})` } as React.CSSProperties}
     >
-      {/* Background Panorama & Vignette */}
-      <div
-        className="mc-bg-panorama"
-        style={{ backgroundImage: `url(${panoramaUrl})` }}
-      />
-      <div className="mc-vignette" />
+      {/* Modular Background Panorama with Lowered Vignette */}
+      <Panorama
+        imageUrl={panoramaUrl}
+        vignette={vignetteLevel}
+        drift={panoramaDrift}
+        blur={screen !== 'title'}
+      >
+        {/* Ambient Floating Particles */}
+        {particlesOn && <canvas ref={canvasRef} className="mc-particles" />}
+      </Panorama>
 
-      {/* Ambient Floating Particles */}
-      {particlesOn && <canvas ref={canvasRef} className="mc-particles" />}
+      {/* Global Viewport Vignette (Instant feedback on all screens including menus) */}
+      {vignetteLevel !== 'off' && (
+        <div
+          className="mc-vignette"
+          style={{ opacity: VIGNETTE_OPACITIES[vignetteLevel] }}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Advancement Made Toast Popup */}
       {advancement && (
@@ -567,8 +581,8 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-                <p className="mc-motd-1">§aGame Developer & Designer §r| §6Level 99 Passionate Gamer</p>
-                <p className="mc-motd-2">§e"Curiosity and the insatiable urge to create amazing worlds..."</p>
+                <p className="mc-motd-1">Game Developer & Designer and a Gamer ofc</p>
+                <p className="mc-motd-2">"daba dee daba doo lul"</p>
               </div>
             </div>
 
@@ -590,7 +604,7 @@ export default function App() {
               </p>
 
               <p className="mc-about-story" style={{ color: '#55ffff' }}>
-                Yes, I am fiercely passionate about this field and I love every single pixel of it! :D
+                Yes, I am fiercely passionate about this field and I love every single pixel of it :D
               </p>
 
               <div className="mc-player-hud">
@@ -859,11 +873,58 @@ export default function App() {
                 className="mc-button"
                 onClick={() => {
                   playClickSound()
+                  const levels: VignetteLevel[] = ['low', 'medium', 'high', 'off']
+                  const nextIdx = (levels.indexOf(vignetteLevel) + 1) % levels.length
+                  const nextLevel = levels[nextIdx]
+                  setVignetteLevel(nextLevel)
+                  triggerAdvancement('Vignette Setting', `Intensity: ${nextLevel.toUpperCase()}`, '⚙')
+                }}
+                title="Cycle vignette intensity (Low / Medium / High / Off)"
+              >
+                Vignette: {vignetteLevel.toUpperCase()}
+              </button>
+
+              <button
+                className="mc-button"
+                onClick={() => {
+                  playClickSound()
+                  const nextMotion = !panoramaDrift
+                  setPanoramaDrift(nextMotion)
+                  triggerAdvancement('Panorama Motion', nextMotion ? 'Slow Ambient Drift ON' : 'Static Camera ON', '⛰')
+                }}
+                title="Toggle subtle panorama camera drift"
+              >
+                Panorama Motion: {panoramaDrift ? 'SLOW DRIFT' : 'STATIC'}
+              </button>
+
+              <button
+                className="mc-button"
+                onClick={() => {
+                  playClickSound()
                   triggerAdvancement('Testing Sound', 'Ding! All sound systems nominal.', '*')
                 }}
               >
                 Test Sound Chime
               </button>
+
+              {/* Live Interactive Panorama & Vignette Preview Box */}
+              <div className="mc-options-preview">
+                <div className="mc-preview-box">
+                  <div
+                    className={`mc-preview-bg ${panoramaDrift ? 'panorama-drift' : ''}`}
+                    style={{ backgroundImage: `url(${panoramaUrl})` }}
+                  />
+                  {vignetteLevel !== 'off' && (
+                    <div
+                      className="mc-vignette-mini"
+                      style={{ opacity: VIGNETTE_OPACITIES[vignetteLevel] }}
+                    />
+                  )}
+                  <div className="mc-preview-tag">
+                    PREVIEW: {vignetteLevel.toUpperCase()} VIGNETTE ({Math.round(VIGNETTE_OPACITIES[vignetteLevel] * 100)}%) · {panoramaDrift ? 'DRIFT ON' : 'STATIC'}
+                  </div>
+                </div>
+              </div>
 
               <div className="mc-options-full">
                 <a
