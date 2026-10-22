@@ -1420,28 +1420,31 @@ html, body, #root {
 
 .mc-email-row {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid #555555;
-  padding: 14px;
+  padding: 14px 18px;
+}
+
+.mc-email-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
 }
 
 .mc-email-label {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: #ffaa00;
   font-weight: 700;
   -webkit-text-stroke: 1px #000000;
   text-stroke: 1px #000000;
   paint-order: stroke fill;
-}
-
-.mc-email-value-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  letter-spacing: 0.5px;
 }
 
 .mc-email-value {
@@ -1453,6 +1456,26 @@ html, body, #root {
   paint-order: stroke fill;
   text-shadow: 2px 2px 0px #000000;
   word-break: break-all;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.mc-email-value:hover {
+  color: #ffff55;
+  text-decoration: underline;
+}
+
+.mc-email-action-btn {
+  flex-shrink: 0;
+  align-self: center;
+  min-height: 44px;
+  font-size: 1.05rem;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .mc-btn-icon {
@@ -1558,6 +1581,19 @@ html, body, #root {
     grid-column: span 1;
   }
   
+  .mc-email-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 14px;
+  }
+  .mc-email-info {
+    width: 100%;
+  }
+  .mc-email-action-btn {
+    align-self: flex-end;
+    margin-left: auto;
+  }
+
   .mc-socials-grid {
     grid-template-columns: 1fr;
   }

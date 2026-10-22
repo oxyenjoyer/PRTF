@@ -242,7 +242,7 @@ export default function App() {
     setSoundEnabled(next)
   }
 
-  async function copyToClipboard(email: string, label: string) {
+  async function handleEmailAction(email: string, label: string) {
     playClickSound()
     try {
       await navigator.clipboard.writeText(email)
@@ -250,7 +250,7 @@ export default function App() {
       triggerAdvancement('Direct Whisper', `Copied ${label} to clipboard!`, '!')
       setTimeout(() => setCopiedStatus(null), 3500)
     } catch {
-      window.location.href = `mailto:${email}`
+      // Fallback: mailto continues natively via <a> href
     }
   }
 
@@ -734,41 +734,59 @@ export default function App() {
               <div className="mc-chat-history">
                 <p className="mc-chat-msg server">&lt;Server&gt; Direct connection established.</p>
                 <p className="mc-chat-msg dev">&lt;Developer&gt; Heyo Looking for a game developer or want to collaborate?</p>
-                <p className="mc-chat-msg info">&lt;Server&gt; Click an email address below to copy it instantly:</p>
+                <p className="mc-chat-msg info">&lt;Server&gt; Click an email below to open your mail app (and copy address):</p>
               </div>
 
               {/* Business Email */}
               <div className="mc-email-row">
-                <span className="mc-email-label">BUSINESS INQUIRIES:</span>
-                <div className="mc-email-value-wrap">
-                  <span className="mc-email-value">{businessEmail}</span>
-                  <button
-                    className="mc-button btn-green"
-                    onClick={() => copyToClipboard(businessEmail, 'Business Email')}
+                <div className="mc-email-info">
+                  <span className="mc-email-label">BUSINESS INQUIRIES:</span>
+                  <a
+                    className="mc-email-value"
+                    href={`mailto:${businessEmail}`}
+                    onClick={() => handleEmailAction(businessEmail, 'Business Email')}
+                    title="Click to open mail app & copy address"
                   >
-                    <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                    </svg>
-                    <span>{copiedStatus === 'Business Email' ? 'Copied!' : 'Copy Email'}</span>
-                  </button>
+                    {businessEmail}
+                  </a>
                 </div>
+                <a
+                  className="mc-button btn-green mc-email-action-btn"
+                  href={`mailto:${businessEmail}`}
+                  onClick={() => handleEmailAction(businessEmail, 'Business Email')}
+                  title="Open mail app & copy address"
+                >
+                  <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                  </svg>
+                  <span>{copiedStatus === 'Business Email' ? 'Copied!' : 'Send Email ↗'}</span>
+                </a>
               </div>
 
               {/* Personal Email */}
               <div className="mc-email-row">
-                <span className="mc-email-label">PERSONAL / DIRECT:</span>
-                <div className="mc-email-value-wrap">
-                  <span className="mc-email-value">{personalEmail}</span>
-                  <button
-                    className="mc-button btn-green"
-                    onClick={() => copyToClipboard(personalEmail, 'Personal Email')}
+                <div className="mc-email-info">
+                  <span className="mc-email-label">PERSONAL / DIRECT:</span>
+                  <a
+                    className="mc-email-value"
+                    href={`mailto:${personalEmail}`}
+                    onClick={() => handleEmailAction(personalEmail, 'Personal Email')}
+                    title="Click to open mail app & copy address"
                   >
-                    <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                    </svg>
-                    <span>{copiedStatus === 'Personal Email' ? 'Copied!' : 'Copy Email'}</span>
-                  </button>
+                    {personalEmail}
+                  </a>
                 </div>
+                <a
+                  className="mc-button btn-green mc-email-action-btn"
+                  href={`mailto:${personalEmail}`}
+                  onClick={() => handleEmailAction(personalEmail, 'Personal Email')}
+                  title="Open mail app & copy address"
+                >
+                  <svg className="mc-btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                  </svg>
+                  <span>{copiedStatus === 'Personal Email' ? 'Copied!' : 'Send Email ↗'}</span>
+                </a>
               </div>
 
               {/* Social Channels */}
