@@ -726,7 +726,7 @@ export default function App() {
       {screen === 'contact' && (
         <section className="mc-dirt-screen" aria-label="Direct Connect and Contact">
           <header className="mc-screen-header">
-            <h2 className="mc-screen-title">Direct Connect (Contact & Socials)</h2>
+            <h2 className="mc-screen-title">Contacts & Socials</h2>
           </header>
 
           <div className="mc-screen-content">
@@ -734,7 +734,7 @@ export default function App() {
               <div className="mc-chat-history">
                 <p className="mc-chat-msg server">&lt;Server&gt; Direct connection established.</p>
                 <p className="mc-chat-msg dev">&lt;Developer&gt; Heyo Looking for a game developer or want to collaborate?</p>
-                <p className="mc-chat-msg info">&lt;Server&gt; Click an email below to open your mail app (and copy address):</p>
+                <p className="mc-chat-msg info">&lt;Server&gt; Click an email below to contact him :D</p>
               </div>
 
               {/* Business Email */}
