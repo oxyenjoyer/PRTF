@@ -15,7 +15,7 @@ interface SkillItem {
   id: string
   name: string
   icon: string
-  count: number
+  count?: number
   tier: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary'
   type: string
   lore: string
@@ -42,61 +42,55 @@ const TECHNICAL_SKILLS: SkillItem[] = [
     id: 'godot',
     name: 'Godot Engine',
     icon: 'GD',
-    count: 4,
     tier: 'Legendary',
     type: 'Primary Game Engine',
     lore: 'Specialized in 3D & 2D game loops, scene tree architectures, and rapid mechanics prototyping.',
-    stat: '+100 Prototyping Speed, 3D Physics Mastery',
+    stat: 'Prototyping Speed, 3D Physics Mastery',
   },
   {
     id: 'gdscript',
     name: 'GDScript',
     icon: 'GS',
-    count: 64,
     tier: 'Epic',
     type: 'Scripting Language',
     lore: 'Fluent in event-driven systems, custom node logic, state machines, and shader integration.',
-    stat: '+95 Execution Fluidity, Signal Mastery',
+    stat: 'Execution Fluidity, Signal Mastery',
   },
   {
     id: 'unity',
     name: 'Unity 3D',
     icon: 'UN',
-    count: 20,
     tier: 'Rare',
     type: 'Secondary Game Engine',
     lore: 'Extensive experience with component-based architecture, physics, Animator controllers, and UI Toolkit.',
-    stat: '+85 Cross-Platform Deployment',
+    stat: 'Cross-Platform Deployment',
   },
   {
     id: 'csharp',
     name: 'C# & C++',
     icon: 'C#',
-    count: 32,
     tier: 'Uncommon',
     type: 'Systems Programming',
     lore: 'Strong foundational memory management, algorithmic problem solving, and object-oriented architectures.',
-    stat: '+90 Performance Optimization & Math',
+    stat: 'Performance Optimization & Math',
   },
   {
     id: 'blender',
     name: 'Blender 3D',
     icon: '3D',
-    count: 16,
     tier: 'Rare',
     type: '3D Modeling Tool',
     lore: 'Capable of creating low-poly game assets, environmental props, UV mapping, and rigging animations.',
-    stat: '+75 Asset Creation & Spatial Design',
+    stat: 'Asset Creation & Spatial Design',
   },
   {
     id: 'vfx',
     name: 'Sound & VFX',
     icon: 'FX',
-    count: 8,
     tier: 'Uncommon',
     type: 'Audio & Particle Craft',
     lore: 'Designing impactful feedback loops, screen shakes, spatial audio, and dynamic particle systems.',
-    stat: '+80 Player Immersion & Juice',
+    stat: 'Player Immersion & Juice',
   },
 ]
 
@@ -105,51 +99,46 @@ const GENERAL_SKILLS: SkillItem[] = [
     id: 'gamedesign',
     name: 'Game Design',
     icon: 'DES',
-    count: 1,
     tier: 'Legendary',
     type: 'Core Discipline',
     lore: 'Crafting addictive game loops, pacing, progression curves, and rewarding risk-reward mechanics.',
-    stat: '+100 Player Engagement',
+    stat: 'Player Engagement',
   },
   {
     id: 'leveldesign',
     name: 'Level Design',
     icon: 'LVL',
-    count: 3,
     tier: 'Epic',
     type: 'Spatial Flow',
     lore: 'Guiding player attention through lighting, geometry, choke points, and visual landmarks.',
-    stat: '+90 Spatial Navigation & Flow',
+    stat: 'Spatial Navigation & Flow',
   },
   {
     id: 'leadership',
     name: 'Leadership',
     icon: 'LEAD',
-    count: 1,
     tier: 'Rare',
     type: 'Team Dynamic',
     lore: 'Organizing sprint targets, inspiring fellow developers, and maintaining clear project visions.',
-    stat: '+85 Team Morale & Vision',
+    stat: 'Team Morale & Vision',
   },
   {
     id: 'comm',
     name: 'Communication',
     icon: 'COM',
-    count: 64,
     tier: 'Common',
     type: 'Collaboration',
     lore: 'Articulate cross-disciplinary dialogue between artists, coders, and sound designers.',
-    stat: '+95 Clarity & Fast Turnaround',
+    stat: 'Clarity & Fast Turnaround',
   },
   {
     id: 'reliability',
     name: 'Reliability',
     icon: 'REL',
-    count: 100,
     tier: 'Legendary',
     type: 'Character Trait',
     lore: 'Committed to bug-free releases, clean git version control, and dependable milestone delivery.',
-    stat: '+100 Trust & Punctuality',
+    stat: 'Trust & Punctuality',
   },
 ]
 
@@ -590,7 +579,7 @@ export default function App() {
 
             <article className="mc-about-panel">
               <h3 className="mc-inv-section-title" style={{ color: '#ffffff' }}>
-                Server Lore & Developer Bio
+                Developer Lore
               </h3>
 
               <p className="mc-about-story">
@@ -668,7 +657,6 @@ export default function App() {
                       )}
                       <span className="mc-slot-icon">{skill.icon}</span>
                       <span className="mc-slot-name">{skill.name}</span>
-                      <span className="mc-slot-count">{skill.count}</span>
                     </div>
                   ))}
                 </div>
@@ -694,7 +682,6 @@ export default function App() {
                       )}
                       <span className="mc-slot-icon">{skill.icon}</span>
                       <span className="mc-slot-name">{skill.name}</span>
-                      <span className="mc-slot-count">{skill.count}</span>
                     </div>
                   ))}
                 </div>

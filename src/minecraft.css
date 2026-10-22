@@ -1141,13 +1141,13 @@ html, body, #root {
   border: 2px solid #373737;
   border-right-color: #ffffff;
   border-bottom-color: #ffffff;
-  padding: 8px 4px 20px;
+  padding: 10px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   text-align: center;
-  min-height: 102px;
+  min-height: 100px;
   box-sizing: border-box;
   cursor: pointer;
   transition: transform 0.05s ease, background 0.05s ease;
@@ -1191,13 +1191,13 @@ html, body, #root {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.94rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #ffff55;
   background: rgba(0, 0, 0, 0.45);
-  padding: 2px 6px;
+  padding: 3px 8px;
   border-radius: 2px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   letter-spacing: 0.5px;
   max-width: 90%;
   box-sizing: border-box;
@@ -1205,14 +1205,14 @@ html, body, #root {
 }
 
 .mc-slot-name {
-  font-size: 0.88rem;
+  font-size: 1.02rem;
   font-weight: 700;
   color: #ffffff;
   -webkit-text-stroke: 0.8px #000000;
   text-stroke: 0.8px #000000;
   paint-order: stroke fill;
   text-shadow: 1px 1px 0px #000000;
-  line-height: 1.18;
+  line-height: 1.2;
   text-align: center;
   width: 100%;
   max-width: 100%;
@@ -1627,21 +1627,18 @@ html, body, #root {
   }
   
   .mc-slot {
-    min-height: 94px;
-    padding: 6px 3px 18px;
+    min-height: 88px;
+    padding: 8px 4px;
+    justify-content: center;
   }
   
   .mc-slot-icon {
-    font-size: 0.88rem;
+    font-size: 0.96rem;
   }
 
   .mc-slot-name {
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     line-height: 1.15;
-  }
-
-  .mc-slot-count {
-    font-size: 0.85rem;
   }
   
   /* Ensure bottom left and right texts stay in their corners and are clearly visible on mobile */
