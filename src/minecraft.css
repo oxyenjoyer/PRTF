@@ -1,0 +1,1661 @@
+/* ==========================================================================
+   MINECRAFT PORTFOLIO THEME - COMPLETE DESIGN SYSTEM
+   ========================================================================== */
+
+/* Authentic Minecraft UI Font */
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Authentic Minecrafter Title Font (DaFont / Madpixel Designs) */
+@font-face {
+  font-family: 'Minecrafter';
+  src: url('./assets/fonts/Minecrafter.Reg.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MinecrafterAlt';
+  src: url('./assets/fonts/Minecrafter.Alt.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --mc-font: 'Minecraft', monospace, sans-serif;
+  --mc-font-pixel: 'Minecraft', monospace;
+  --mc-font-logo: 'MinecrafterAlt', 'Minecrafter', 'Minecraft', sans-serif;
+  
+  /* Palette */
+  --mc-dark-bg: #111111;
+  --mc-dirt-base: #49331d;
+  --mc-panel-bg: #c6c6c6;
+  --mc-panel-dark: #373737;
+  --mc-btn-bg: #707070;
+  --mc-btn-hover: #7b7bb2;
+  --mc-btn-text: #e0e0e0;
+  --mc-btn-hover-text: #ffffa0;
+  --mc-tooltip-bg: #100010;
+  --mc-tooltip-border: #2e0854;
+  --mc-tooltip-sub: #180530;
+  
+  /* Text colors */
+  --mc-text-white: #ffffff;
+  --mc-text-gray: #aaaaaa;
+  --mc-text-gold: #ffaa00;
+  --mc-text-yellow: #ffff55;
+  --mc-text-green: #55ff55;
+  --mc-text-aqua: #55ffff;
+  --mc-text-red: #ff5555;
+  --mc-text-purple: #aa00aa;
+
+  /* Modular Panorama & Vignette Tokens */
+  --mc-vignette-opacity: 0.22;
+  --mc-panorama-brightness: 1;
+  --mc-panorama-contrast: 1;
+  --mc-panorama-blur: 0px;
+}
+
+/* Base resets & pixel perfection */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: var(--mc-font);
+  font-weight: 700;
+  color: var(--mc-text-white);
+  background-color: #000000;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Minecraft Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+  border-left: 2px solid #333333;
+}
+::-webkit-scrollbar-thumb {
+  background: #555555;
+  border: 2px solid #888888;
+  border-right-color: #222222;
+  border-bottom-color: #222222;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}
+
+/* Main Container */
+.mc-app {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quake Pro FOV Easter Egg */
+.mc-app.quake-pro {
+  transform: perspective(1000px) scale(1.02);
+  filter: contrast(1.05);
+}
+
+/* Modular Panorama Container */
+.mc-panorama-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient Panorama Background - High-resolution static Minecraft scene */
+.mc-bg-panorama {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(var(--mc-panorama-brightness, 1))
+          contrast(var(--mc-panorama-contrast, 1))
+          blur(var(--mc-panorama-blur, 0px));
+  z-index: 0;
+  transform: scale(1.01);
+  transition: filter 0.4s ease, opacity 0.3s ease;
+  will-change: transform, filter;
+}
+
+/* Optional Ambient Drift Animation */
+.mc-bg-panorama.panorama-drift {
+  width: 108%;
+  height: 108%;
+  inset: -4%;
+  animation: mcPanoramaDrift 50s ease-in-out infinite alternate;
+}
+
+@keyframes mcPanoramaDrift {
+  0% {
+    transform: scale(1.02) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.05) translate(-1.5%, -0.8%);
+  }
+  100% {
+    transform: scale(1.02) translate(1.2%, 0.8%);
+  }
+}
+
+/* Full-Screen Camera Vignette Overlay (Clear center, rich corner framing) */
+.mc-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity 0.25s ease;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.45) 75%,
+      rgba(0, 0, 0, 0.95) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0) 80%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+}
+
+/* Vignette Intensity Preset Modifiers */
+.vignette-off { --mc-vignette-opacity: 0; }
+.vignette-low { --mc-vignette-opacity: 0.28; }
+.vignette-medium { --mc-vignette-opacity: 0.55; }
+.vignette-high { --mc-vignette-opacity: 0.85; }
+
+/* Options Screen Live Preview Card */
+.mc-options-preview {
+  grid-column: span 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.mc-preview-box {
+  position: relative;
+  width: 100%;
+  height: 125px;
+  border: 2px solid #555555;
+  outline: 2px solid #000000;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.mc-preview-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+.mc-preview-bg.panorama-drift {
+  width: 112%;
+  height: 112%;
+  inset: -6%;
+  animation: mcPanoramaDrift 40s ease-in-out infinite alternate;
+}
+
+.mc-vignette-mini {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.5) 75%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+}
+
+.mc-preview-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffff55;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 3px 8px;
+  border: 1px solid #555555;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+  letter-spacing: 0.5px;
+}
+
+/* Particle Canvas */
+.mc-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Tiled Real Seamless Dirt Background (Submenus) */
+.mc-dirt-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  height: 100dvh;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #2b1f14;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  animation: mcScreenFadeIn 0.15s ease-out;
+}
+
+@keyframes mcScreenFadeIn {
+  from { opacity: 0; transform: scale(0.995); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Screen Top & Bottom Bars */
+.mc-screen-header {
+  position: relative;
+  z-index: 20;
+  height: 64px;
+  min-height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.86)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  border-bottom: 2px solid #000000;
+}
+
+.mc-screen-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 2px #000000;
+  text-stroke: 2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+  letter-spacing: 1px;
+}
+
+.mc-screen-footer {
+  position: relative;
+  z-index: 20;
+  min-height: 72px;
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.86)),
+    var(--mc-dirt-url, url('./dirt.png'));
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
+  border-top: 2px solid #000000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.5);
+  padding: 10px 20px max(10px, env(safe-area-inset-bottom));
+}
+
+.mc-screen-content {
+  flex: 1 1 0%;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ==========================================================================
+   MINECRAFT BUTTONS (Bold text, increased stroke, authentic bevels)
+   ========================================================================== */
+
+.mc-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  font-family: var(--mc-font);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #222222;
+  letter-spacing: 0.5px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+  image-rendering: pixelated;
+
+  /* Authentic Minecraft GUI 9-slice button border & stone dithering */
+  border-style: solid;
+  border-width: 4px;
+  border-image-source: url('./btn_normal.png');
+  border-image-slice: 2 2 3 2 fill;
+  border-image-width: 4px;
+  border-image-repeat: repeat;
+  background: transparent;
+  box-shadow: none;
+  transition: color 0.05s ease;
+}
+
+.mc-button:hover:not(:disabled) {
+  border-image-source: url('./btn_hover.png');
+  color: #ffffa0;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #3f3f00;
+}
+
+.mc-button:active:not(:disabled) {
+  border-image-source: url('./btn_disabled.png');
+  color: #a0a0a0;
+  text-shadow: 2px 2px 0px #222222;
+  transform: translateY(1px);
+}
+
+.mc-button:disabled {
+  border-image-source: url('./btn_disabled.png');
+  color: #7e7e7e;
+  text-shadow: 2px 2px 0px #222222;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.mc-button.btn-wide {
+  width: 100%;
+  max-width: 400px;
+  min-height: 48px;
+  font-size: 1.35rem;
+}
+
+.mc-button.btn-half {
+  flex: 1;
+  max-width: 200px;
+  min-width: 140px;
+  min-height: 44px;
+  font-size: 1.15rem;
+}
+
+.mc-screen-footer .mc-button.btn-half {
+  flex: 0 0 230px;
+  width: 230px;
+  max-width: 230px;
+  min-width: 230px;
+  height: 46px;
+  min-height: 46px;
+  font-size: 0.94rem;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  letter-spacing: 0px;
+  padding: 0 8px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.mc-button.btn-square {
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+}
+
+.mc-button.btn-green {
+  filter: hue-rotate(85deg) brightness(1.1);
+}
+.mc-button.btn-green:hover:not(:disabled) {
+  filter: hue-rotate(85deg) brightness(1.3);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   TITLE SCREEN (MAIN MENU)
+   ========================================================================== */
+
+.mc-title-screen {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(16px, 3vh, 32px) 16px max(12px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Logo & Title Header */
+.mc-logo-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(16px, 4.5vh, 44px);
+  padding: 0 16px;
+  user-select: none;
+}
+
+.mc-logo-title-row {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Authentic Minecraft 3D Stepped Block Logo (Layered 3D stone, metallic gradient face, crisp black outline) */
+.mc-logo-title {
+  position: relative;
+  display: inline-block;
+  font-family: var(--mc-font-logo);
+  font-size: clamp(4rem, 10.5vw, 7.2rem);
+  font-weight: 400;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  transform: perspective(600px) rotateX(8deg);
+  transform-style: preserve-3d;
+}
+
+/* Layer 1: Solid 3D Extrusion Stepped Block Shadow (Opaque dark stone depth behind) */
+.mc-logo-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  color: #262626;
+  pointer-events: none;
+  user-select: none;
+  display: inline-block;
+
+  /* Solid, unbroken 3D block extrusion downward with perimeter outline */
+  text-shadow:
+    /* Front perimeter outline */
+    -2px -2px 0 #000000,
+     0   -2px 0 #000000,
+     2px -2px 0 #000000,
+    -2px  0   0 #000000,
+     2px  0   0 #000000,
+    /* 1px step */
+    -2px  1px 0 #000000,
+    -1px  1px 0 #4a4a4a,
+     0    1px 0 #4a4a4a,
+     1px  1px 0 #4a4a4a,
+     2px  1px 0 #000000,
+    /* 2px step */
+    -2px  2px 0 #000000,
+    -1px  2px 0 #444444,
+     0    2px 0 #444444,
+     1px  2px 0 #444444,
+     2px  2px 0 #000000,
+    /* 3px step */
+    -2px  3px 0 #000000,
+    -1px  3px 0 #3d3d3d,
+     0    3px 0 #3d3d3d,
+     1px  3px 0 #3d3d3d,
+     2px  3px 0 #000000,
+    /* 4px step */
+    -2px  4px 0 #000000,
+    -1px  4px 0 #353535,
+     0    4px 0 #353535,
+     1px  4px 0 #353535,
+     2px  4px 0 #000000,
+    /* 5px step */
+    -2px  5px 0 #000000,
+    -1px  5px 0 #2e2e2e,
+     0    5px 0 #2e2e2e,
+     1px  5px 0 #2e2e2e,
+     2px  5px 0 #000000,
+    /* 6px step */
+    -2px  6px 0 #000000,
+    -1px  6px 0 #262626,
+     0    6px 0 #262626,
+     1px  6px 0 #262626,
+     2px  6px 0 #000000,
+    /* 7px step */
+    -2px  7px 0 #000000,
+    -1px  7px 0 #1e1e1e,
+     0    7px 0 #1e1e1e,
+     1px  7px 0 #1e1e1e,
+     2px  7px 0 #000000,
+    /* 8px step */
+    -2px  8px 0 #000000,
+    -1px  8px 0 #161616,
+     0    8px 0 #161616,
+     1px  8px 0 #161616,
+     2px  8px 0 #000000,
+    /* 9px step */
+    -2px  9px 0 #000000,
+    -1px  9px 0 #0f0f0f,
+     0    9px 0 #0f0f0f,
+     1px  9px 0 #0f0f0f,
+     2px  9px 0 #000000,
+    /* 10px bottom base line */
+    -2px 10px 0 #000000,
+    -1px 10px 0 #000000,
+     0   10px 0 #000000,
+     1px 10px 0 #000000,
+     2px 10px 0 #000000,
+    /* Deep ambient ground drop shadow */
+     0   16px 26px rgba(0, 0, 0, 0.92);
+}
+
+/* Layer 2: Pristine Stone Block Front Face (Vibrant metallic silver stone gradient + crisp black outline) */
+.mc-logo-front {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #ebebeb 22%,
+    #cccccc 48%,
+    #9c9c9c 52%,
+    #787878 78%,
+    #555555 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.8px #000000;
+  text-stroke: 1.8px #000000;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4));
+}
+
+.mc-logo-subtitle {
+  font-family: var(--mc-font);
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #ffaa00;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #3f2200;
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Bouncing Yellow Splash Text */
+.mc-splash-text {
+  position: absolute;
+  right: -32px;
+  bottom: 4px;
+  transform: rotate(-20deg);
+  transform-origin: center center;
+  font-family: var(--mc-font);
+  font-size: clamp(1.05rem, 1.8vw, 1.38rem);
+  font-weight: 700;
+  color: #ffff00;
+  -webkit-text-stroke: 1.8px #000000;
+  text-stroke: 1.8px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #3f3f00;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+  animation: mcSplashPulse 1.6s infinite alternate ease-in-out;
+  transition: color 0.15s ease;
+}
+
+.mc-splash-text:hover {
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+@keyframes mcSplashPulse {
+  0% { transform: rotate(-20deg) scale(0.96); }
+  100% { transform: rotate(-20deg) scale(1.06); }
+}
+
+@media (max-width: 640px) {
+  .mc-splash-text {
+    right: 0;
+    bottom: -6px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Menu Buttons Column */
+.mc-menu-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: auto 0;
+}
+
+.mc-menu-list .mc-button.btn-wide {
+  font-size: 1.35rem;
+  min-height: 48px;
+  letter-spacing: 0.8px;
+}
+
+.mc-menu-list .mc-button.btn-half {
+  font-size: 1.15rem;
+  min-height: 46px;
+  letter-spacing: 0.5px;
+}
+
+.mc-menu-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  justify-content: space-between;
+}
+
+/* Bottom Bar Info */
+.mc-title-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.mc-title-footer a {
+  color: #55ffff;
+  text-decoration: none;
+}
+.mc-title-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   ADVANCEMENT TOAST POPUP
+   ========================================================================== */
+
+.mc-advancement-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #212121;
+  border: 2px solid #555555;
+  padding: 12px 18px;
+  animation: mcToastSlideIn 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes mcToastSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.mc-advancement-icon {
+  width: 38px;
+  height: 38px;
+  background: #ffaa00;
+  border: 2px solid #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+}
+
+.mc-advancement-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-advancement-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffff55;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #3f3f00;
+}
+
+.mc-advancement-desc {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+/* ==========================================================================
+   SINGLEPLAYER SCREEN (SELECT WORLD / PROJECTS)
+   ========================================================================== */
+
+.mc-world-list {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mc-world-card {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 2px solid #555555;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.mc-world-card:hover, .mc-world-card.is-selected {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: #ffffff;
+  outline: 2px solid #ffffff;
+}
+
+.mc-world-thumbnail {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #2b241c;
+  border: 2px solid #555555;
+  image-rendering: auto;
+  display: grid;
+  place-items: center;
+}
+
+.mc-world-placeholder-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffaa00;
+  padding: 4px 6px;
+  border: 1px dashed #777777;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-world-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mc-world-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mc-world-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1.8px #000000;
+  text-stroke: 1.8px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.mc-world-status {
+  padding: 2px 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #1b5e20;
+  border: 1px solid #4caf50;
+  color: #a5d6a7;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-world-status.prototype {
+  background: #e65100;
+  border-color: #ff9800;
+  color: #ffe0b2;
+}
+
+.mc-world-subline {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #aaaaaa;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-world-desc {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.mc-world-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mc-world-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: #333333;
+  border: 1px solid #777777;
+  color: #55ffff;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-world-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   MULTIPLAYER SCREEN (SERVER BROWSER & ABOUT)
+   ========================================================================== */
+
+.mc-server-card {
+  width: 100%;
+  max-width: 820px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 2px solid #555555;
+  padding: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+}
+
+.mc-server-icon {
+  width: 64px;
+  height: 64px;
+  background: #2e7d32;
+  border: 2px solid #81c784;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.mc-server-info {
+  flex: 1;
+}
+
+.mc-server-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.mc-server-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1.8px #000000;
+  text-stroke: 1.8px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+.mc-server-ping {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #55ff55;
+}
+
+.mc-ping-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 14px;
+}
+.mc-ping-bar {
+  width: 3px;
+  background: #55ff55;
+}
+.mc-ping-bar:nth-child(1) { height: 4px; }
+.mc-ping-bar:nth-child(2) { height: 6px; }
+.mc-ping-bar:nth-child(3) { height: 9px; }
+.mc-ping-bar:nth-child(4) { height: 11px; }
+.mc-ping-bar:nth-child(5) { height: 14px; }
+
+.mc-motd-1 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #55ff55;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #002200;
+  margin-bottom: 2px;
+}
+
+.mc-motd-2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffff55;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #3f3f00;
+}
+
+/* About Lore Box */
+.mc-about-panel {
+  width: 100%;
+  max-width: 820px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #777777;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mc-about-story {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #e0e0e0;
+  -webkit-text-stroke: 0.6px #000000;
+  text-stroke: 0.6px #000000;
+  paint-order: stroke fill;
+}
+
+/* RPG Player Status Bar */
+.mc-player-hud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #444444;
+  padding: 12px 16px;
+  margin-top: 8px;
+  gap: 12px;
+}
+
+.mc-hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.mc-hud-label {
+  color: #aaaaaa;
+}
+
+.mc-hud-val {
+  color: #55ffff;
+}
+
+/* ==========================================================================
+   SKILLS & INVENTORY SCREEN
+   ========================================================================== */
+
+.mc-inventory-window {
+  width: 100%;
+  max-width: 860px;
+  background: #c6c6c6;
+  border: 3px solid #ffffff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  padding: 20px;
+  color: #373737;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mc-inv-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.mc-slot {
+  position: relative;
+  background: #8b8b8b;
+  border: 2px solid #373737;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  padding: 8px 4px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  min-height: 102px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.05s ease;
+  overflow: hidden;
+  user-select: none;
+}
+
+.mc-slot:hover,
+.mc-slot.is-selected {
+  background: #a0a0d0;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+/* Tier Slot Backgrounds & Custom Bevels */
+.mc-slot.tier-legendary {
+  background: #ffa808;
+  border-color: #b36e00 #ffd666 #ffd666 #b36e00;
+}
+
+.mc-slot.tier-legendary:hover,
+.mc-slot.tier-legendary.is-selected {
+  background: #ffb726;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+.mc-slot.tier-epic {
+  background: #841891;
+  border-color: #4a0b52 #d440ea #d440ea #4a0b52;
+}
+
+.mc-slot.tier-epic:hover,
+.mc-slot.tier-epic.is-selected {
+  background: #9923a8;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+.mc-slot-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #ffff55;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+  max-width: 90%;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+.mc-slot-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px 0px #000000;
+  line-height: 1.18;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  box-sizing: border-box;
+  padding: 0 2px;
+}
+
+.mc-slot-icon,
+.mc-slot-name {
+  position: relative;
+  z-index: 2;
+}
+
+.mc-slot-count {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  z-index: 2;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffff55;
+  -webkit-text-stroke: 1.2px #000000;
+  text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px 0px #000000;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.mc-slot.tier-legendary .mc-slot-name {
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+}
+
+.mc-slot.tier-legendary .mc-slot-count {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* Tier Inside Dashed Outlines */
+.mc-slot-tier-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mc-slot-tier-svg rect {
+  fill: none;
+  stroke-width: 3px;
+}
+
+/* Legendary: #fcc865 border on bright #ffa808 background (no glow) */
+.mc-slot-tier-svg.tier-legendary rect {
+  stroke: #fcc865;
+  stroke-dasharray: 24 5;
+  stroke-width: 3.5px;
+}
+
+/* Epic: Super bright electric neon magenta border (no glow) */
+.mc-slot-tier-svg.tier-epic rect {
+  stroke: #ff44ff;
+  stroke-dasharray: 6 4;
+  stroke-width: 3.5px;
+}
+
+/* Rare: Bright cyan with dashed outline (no glow) */
+.mc-slot-tier-svg.tier-rare rect {
+  stroke: #00ffff;
+  stroke-dasharray: 7 5;
+  stroke-width: 2.8px;
+}
+
+/* Thicken tier border on slot hover or selection (clean, no glow) */
+.mc-slot:hover .mc-slot-tier-svg rect,
+.mc-slot.is-selected .mc-slot-tier-svg rect {
+  stroke-width: 4px;
+}
+
+/* Authentic Minecraft Tooltip */
+.mc-tooltip-box {
+  background: #120016;
+  border: 2px solid #28004d;
+  padding: 12px 14px;
+  color: #ffffff;
+  border-radius: 4px;
+  margin-top: 14px;
+  animation: mcScreenFadeIn 0.15s ease-out;
+}
+
+.mc-tooltip-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+  margin-bottom: 4px;
+}
+
+.mc-tooltip-title.tier-common {
+  color: #aaaaaa;
+}
+.mc-tooltip-title.tier-uncommon {
+  color: #55ff55;
+}
+.mc-tooltip-title.tier-rare {
+  color: #55ffff;
+}
+.mc-tooltip-title.tier-epic {
+  color: #ff55ff;
+}
+.mc-tooltip-title.tier-legendary {
+  color: #ffaa00;
+}
+
+.mc-tooltip-rarity {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffaa00;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+  margin-bottom: 8px;
+}
+
+.mc-tooltip-rarity.tier-common {
+  color: #aaaaaa;
+}
+.mc-tooltip-rarity.tier-uncommon {
+  color: #55ff55;
+}
+.mc-tooltip-rarity.tier-rare {
+  color: #55ffff;
+}
+.mc-tooltip-rarity.tier-epic {
+  color: #ff55ff;
+}
+.mc-tooltip-rarity.tier-legendary {
+  color: #ffaa00;
+}
+
+.mc-tooltip-desc {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #aaaaaa;
+  line-height: 1.4;
+}
+
+.mc-tooltip-stat {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #55ff55;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   CONTACT / DIRECT CONNECT SCREEN
+   ========================================================================= */
+
+.mc-contact-box {
+  width: 100%;
+  max-width: 820px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #777777;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mc-chat-history {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #444444;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.mc-chat-msg {
+  font-weight: 700;
+  -webkit-text-stroke: 0.8px #000000;
+  text-stroke: 0.8px #000000;
+  paint-order: stroke fill;
+}
+.mc-chat-msg.server { color: #ffff55; }
+.mc-chat-msg.dev { color: #55ff55; }
+.mc-chat-msg.info { color: #55ffff; }
+
+.mc-email-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #555555;
+  padding: 14px;
+}
+
+.mc-email-label {
+  font-size: 0.95rem;
+  color: #ffaa00;
+  font-weight: 700;
+  -webkit-text-stroke: 1px #000000;
+  text-stroke: 1px #000000;
+  paint-order: stroke fill;
+}
+
+.mc-email-value-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mc-email-value {
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 700;
+  -webkit-text-stroke: 1.5px #000000;
+  text-stroke: 1.5px #000000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0px #000000;
+  word-break: break-all;
+}
+
+.mc-btn-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+  filter: drop-shadow(1px 1px 0px #000000);
+}
+
+.mc-socials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.mc-socials-grid .mc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  padding: 0 16px;
+  min-height: 46px;
+}
+
+/* ==========================================================================
+   OPTIONS SCREEN
+   ========================================================================== */
+
+.mc-options-grid {
+  width: 100%;
+  max-width: 820px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.mc-options-full {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & SMALL SCREENS)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Logo and Title on Mobile - Balanced sizing with proper padding */
+  .mc-logo-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    margin-top: clamp(10px, 2.5vh, 20px);
+  }
+
+  .mc-logo-title-row {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .mc-logo-title {
+    font-size: clamp(3.1rem, 10.8vw, 4.8rem);
+    letter-spacing: clamp(3px, 1.2vw, 5px);
+  }
+
+  .mc-logo-subtitle {
+    font-size: clamp(0.8rem, 2.6vw, 1.05rem);
+    letter-spacing: clamp(2px, 0.8vw, 3px);
+    margin-top: 18px;
+  }
+
+  .mc-splash-text {
+    right: -8px;
+    bottom: -6px;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+  }
+
+  .mc-screen-content {
+    padding: 16px 12px;
+  }
+  
+  .mc-world-card {
+    flex-direction: column;
+  }
+  
+  .mc-world-thumbnail {
+    width: 100%;
+    height: 160px;
+  }
+  
+  .mc-server-card {
+    flex-direction: column;
+  }
+  
+  .mc-options-grid {
+    grid-template-columns: 1fr;
+  }
+  .mc-options-full {
+    grid-column: span 1;
+  }
+  
+  .mc-socials-grid {
+    grid-template-columns: 1fr;
+  }
+  .mc-socials-grid .mc-button {
+    font-size: 1.05rem;
+    padding: 0 12px;
+    min-height: 44px;
+  }
+  
+  .mc-menu-list {
+    max-width: 320px;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  
+  .mc-screen-footer {
+    height: auto;
+    min-height: 58px;
+    padding: 8px 10px max(10px, env(safe-area-inset-bottom));
+    flex-wrap: nowrap;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  
+  .mc-button.btn-wide, .mc-button.btn-half {
+    max-width: 100%;
+  }
+
+  .mc-screen-footer .mc-button.btn-half {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    height: 44px;
+    min-height: 44px;
+    font-size: 0.82rem;
+    -webkit-text-stroke: 0.8px #000000;
+    text-stroke: 0.8px #000000;
+    letter-spacing: 0px;
+    padding: 0 6px;
+    white-space: nowrap;
+  }
+
+  .mc-screen-footer .mc-button.btn-wide {
+    width: 100%;
+    max-width: 320px;
+    height: 44px;
+    min-height: 44px;
+    font-size: 0.95rem;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  .mc-menu-list .mc-button.btn-wide {
+    font-size: 1.15rem;
+    min-height: 44px;
+  }
+
+  .mc-menu-list .mc-button.btn-half {
+    font-size: 1.02rem;
+    min-height: 42px;
+  }
+
+  .mc-slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  
+  .mc-slot {
+    min-height: 94px;
+    padding: 6px 3px 18px;
+  }
+  
+  .mc-slot-icon {
+    font-size: 0.88rem;
+  }
+
+  .mc-slot-name {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+
+  .mc-slot-count {
+    font-size: 0.85rem;
+  }
+  
+  /* Ensure bottom left and right texts stay in their corners and are clearly visible on mobile */
+  .mc-title-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 6px max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    font-size: 0.82rem;
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+    flex-shrink: 0;
+    gap: 12px;
+  }
+}

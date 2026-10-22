@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "v2"]
   workflow_dispatch:
 
 permissions:
@@ -26,9 +26,9 @@ jobs:
         with:
           node-version: 20
           cache: npm
+      - uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
-      - uses: actions/configure-pages@v5
       - name: Upload production build
         uses: actions/upload-pages-artifact@v3
         with:
