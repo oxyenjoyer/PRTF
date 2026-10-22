@@ -77,6 +77,8 @@
 html, body, #root {
   width: 100%;
   height: 100%;
+  min-height: 100%;
+  height: 100dvh;
   overflow: hidden;
   font-family: var(--mc-font);
   font-weight: 700;
@@ -107,8 +109,10 @@ html, body, #root {
 /* Main Container */
 .mc-app {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -270,11 +274,16 @@ html, body, #root {
 
 /* Tiled Real Seamless Dirt Background (Submenus) */
 .mc-dirt-screen {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  height: 100dvh;
   z-index: 10;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background-color: #2b1f14;
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)),
@@ -293,8 +302,10 @@ html, body, #root {
 /* Screen Top & Bottom Bars */
 .mc-screen-header {
   position: relative;
-  z-index: 2;
+  z-index: 20;
   height: 64px;
+  min-height: 64px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,8 +331,10 @@ html, body, #root {
 
 .mc-screen-footer {
   position: relative;
-  z-index: 2;
-  height: 72px;
+  z-index: 20;
+  min-height: 72px;
+  flex-shrink: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,12 +346,17 @@ html, body, #root {
   background-size: 64px 64px;
   image-rendering: pixelated;
   border-top: 2px solid #000000;
-  padding: 0 20px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.5);
+  padding: 10px 20px max(10px, env(safe-area-inset-bottom));
 }
 
 .mc-screen-content {
-  flex: 1;
+  flex: 1 1 0%;
+  min-height: 0;
+  width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
@@ -464,11 +482,15 @@ html, body, #root {
   z-index: 5;
   width: 100%;
   height: 100%;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 32px 16px 20px;
+  padding: clamp(16px, 3vh, 32px) 16px max(12px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Logo & Title Header */
@@ -704,6 +726,7 @@ html, body, #root {
 .mc-title-footer {
   width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
   font-size: 0.95rem;
@@ -714,7 +737,9 @@ html, body, #root {
   paint-order: stroke fill;
   text-shadow: 2px 2px 0px #000000;
   letter-spacing: 0.5px;
-  padding: 0 12px;
+  padding: 8px 16px;
+  flex-shrink: 0;
+  z-index: 10;
 }
 
 .mc-title-footer a {
@@ -1479,6 +1504,36 @@ html, body, #root {
    ========================================================================== */
 
 @media (max-width: 768px) {
+  /* Logo and Title on Mobile - Balanced sizing with proper padding */
+  .mc-logo-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    margin-top: clamp(10px, 2.5vh, 20px);
+  }
+
+  .mc-logo-title-row {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .mc-logo-title {
+    font-size: clamp(3.1rem, 10.8vw, 4.8rem);
+    letter-spacing: clamp(3px, 1.2vw, 5px);
+  }
+
+  .mc-logo-subtitle {
+    font-size: clamp(0.8rem, 2.6vw, 1.05rem);
+    letter-spacing: clamp(2px, 0.8vw, 3px);
+    margin-top: 18px;
+  }
+
+  .mc-splash-text {
+    right: -8px;
+    bottom: -6px;
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+  }
+
   .mc-screen-content {
     padding: 16px 12px;
   }
@@ -1514,13 +1569,17 @@ html, body, #root {
   
   .mc-menu-list {
     max-width: 320px;
+    gap: 8px;
+    margin: 12px 0;
   }
   
   .mc-screen-footer {
     height: auto;
-    padding: 12px 10px;
-    flex-wrap: wrap;
+    min-height: 58px;
+    padding: 8px 10px max(10px, env(safe-area-inset-bottom));
+    flex-wrap: nowrap;
     gap: 8px;
+    flex-shrink: 0;
   }
   
   .mc-button.btn-wide, .mc-button.btn-half {
@@ -1528,17 +1587,28 @@ html, body, #root {
   }
 
   .mc-screen-footer .mc-button.btn-half {
-    flex: 1 1 calc(50% - 6px);
+    flex: 1 1 0;
     width: auto;
     min-width: 0;
     max-width: 100%;
     height: 44px;
     min-height: 44px;
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     -webkit-text-stroke: 0.8px #000000;
     text-stroke: 0.8px #000000;
     letter-spacing: 0px;
-    padding: 0 4px;
+    padding: 0 6px;
+    white-space: nowrap;
+  }
+
+  .mc-screen-footer .mc-button.btn-wide {
+    width: 100%;
+    max-width: 320px;
+    height: 44px;
+    min-height: 44px;
+    font-size: 0.95rem;
+    padding: 0 12px;
+    white-space: nowrap;
   }
 
   .mc-menu-list .mc-button.btn-wide {
@@ -1574,10 +1644,18 @@ html, body, #root {
     font-size: 0.85rem;
   }
   
+  /* Ensure bottom left and right texts stay in their corners and are clearly visible on mobile */
   .mc-title-footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 6px max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    font-size: 0.82rem;
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+    flex-shrink: 0;
+    gap: 12px;
   }
 }
