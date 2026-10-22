@@ -1455,7 +1455,9 @@ html, body, #root {
   text-stroke: 1.5px #000000;
   paint-order: stroke fill;
   text-shadow: 2px 2px 0px #000000;
-  word-break: break-all;
+  white-space: nowrap;
+  word-break: normal;
+  line-height: 1.35;
   text-decoration: none;
   cursor: pointer;
   transition: color 0.15s ease;
@@ -1476,6 +1478,14 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+}
+
+.mc-email-action-btn .mc-btn-text-short {
+  display: none;
+}
+
+.mc-email-action-btn .mc-btn-text-full {
+  display: inline;
 }
 
 .mc-btn-icon {
@@ -1581,17 +1591,88 @@ html, body, #root {
     grid-column: span 1;
   }
   
-  .mc-email-row {
-    flex-wrap: wrap;
+  .mc-screen-title {
+    font-size: clamp(1rem, 4.2vw, 1.4rem);
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    -webkit-text-stroke: 1.2px #000000;
+    text-stroke: 1.2px #000000;
+  }
+
+  .mc-contact-box {
+    padding: 14px 10px;
     gap: 12px;
-    padding: 14px 14px;
   }
+
+  .mc-chat-history {
+    padding: 10px 12px;
+    gap: 6px;
+    font-size: clamp(0.85rem, 2.6vw, 0.98rem);
+    line-height: 1.35;
+  }
+
+  .mc-email-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    flex-wrap: nowrap;
+  }
+
   .mc-email-info {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
+
+  .mc-email-label {
+    font-size: clamp(0.78rem, 2.4vw, 0.9rem);
+    color: #ffaa00;
+    font-weight: 700;
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+    paint-order: stroke fill;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .mc-email-value {
+    font-size: clamp(0.74rem, 2.9vw, 1.12rem);
+    color: #ffffff;
+    font-weight: 700;
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+    paint-order: stroke fill;
+    text-shadow: 1.5px 1.5px 0px #000000;
+    white-space: nowrap;
+    word-break: normal;
+    line-height: 1.35;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
   .mc-email-action-btn {
-    align-self: flex-end;
-    margin-left: auto;
+    flex-shrink: 0;
+    align-self: center;
+    min-height: 38px;
+    height: 38px;
+    font-size: 0.88rem;
+    padding: 0 10px;
+    gap: 6px;
+    margin-left: 0;
+    white-space: nowrap;
+  }
+
+  .mc-email-action-btn .mc-btn-icon {
+    width: 14px;
+    height: 14px;
   }
 
   .mc-socials-grid {
@@ -1692,3 +1773,45 @@ html, body, #root {
     gap: 12px;
   }
 }
+
+/* Compact phones (<= 440px): Adapt button size and text while keeping email and sub-headings fully readable */
+@media (max-width: 440px) {
+  .mc-screen-content {
+    padding: 12px 8px;
+  }
+
+  .mc-contact-box {
+    padding: 12px 8px;
+    gap: 10px;
+  }
+
+  .mc-email-row {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .mc-email-label {
+    font-size: 0.76rem;
+  }
+
+  .mc-email-value {
+    font-size: clamp(0.7rem, 3.2vw, 0.86rem);
+  }
+
+  .mc-email-action-btn {
+    min-height: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+    padding: 0 7px;
+    gap: 4px;
+  }
+
+  .mc-email-action-btn .mc-btn-text-full {
+    display: none;
+  }
+
+  .mc-email-action-btn .mc-btn-text-short {
+    display: inline;
+  }
+}
+
